@@ -31,3 +31,11 @@ export const CREATURE_TYPES = [
   ["penguin",         2],  // rare
   ["rhino",           2],
 ] as const;
+
+export interface Creature {
+  id: string;
+  songId: string;
+  name: string;
+  genes: { size: number; speed: number; colour: number };
+  type: string;
+}

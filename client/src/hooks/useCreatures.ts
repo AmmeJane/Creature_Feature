@@ -1,0 +1,109 @@
+import { useEffect, useRef, useState, useCallback } from "react";
+import { Creature } from "../pages/CreatureModel";
+import type { CreatureSnapshot } from "../types/CreatureTypes";
+import { fetchCreatures, addCreature } from "../api/creature";
+
+export function useCreatures() {
+  const instancesRef = useRef<Creature[]>([]);
+  const typeMapRef = useRef<Record<string, string>>({});
+  const snapshotsRef = useRef<CreatureSnapshot[]>([]);
+
+  const [snapshots, setSnapshots] = useState<CreatureSnapshot[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [running, setRunning] = useState(true);
+  const [tick, setTick] = useState(0);
+  const [spawning, setSpawning] = useState(false);
+
+  // ── Load from API ────────────────────────────────────────────────────────
+  useEffect(() => {
+    fetchCreatures()
+      .then((snaps) => {
+        instancesRef.current = [];
+        typeMapRef.current = {};
+        snaps.forEach((s: any) => {
+          instancesRef.current.push(Creature.fromSnapshot(s));
+          typeMapRef.current[s.id] = s.type ?? "raptor";
+        });
+        const initial = instancesRef.current.map((c) => c.toSnapshot());
+        snapshotsRef.current = initial;
+        setSnapshots(initial);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.warn("API unavailable, using fallback creatures:", err);
+        const fallback = Array.from({ length: 5 }, () => new Creature());
+        instancesRef.current = fallback;
+        fallback.forEach((c) => {
+          typeMapRef.current[c.id] = "raptor";
+        });
+        const initial = fallback.map((c) => c.toSnapshot());
+        snapshotsRef.current = initial;
+        setSnapshots(initial);
+        setLoading(false);
+      });
+  }, []);
+
+  // ── Simulation tick ──────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!running || loading) return;
+    const id = setInterval(() => {
+      instancesRef.current.forEach((c) => c.update());
+      const next = instancesRef.current.map((c) => c.toSnapshot());
+      snapshotsRef.current = next;
+      setSnapshots(next);
+      setTick((t) => t + 1);
+    }, 60);
+    return () => clearInterval(id);
+  }, [running, loading]);
+
+  // ── Spawn ────────────────────────────────────────────────────────────────
+  const spawnCreature = useCallback(async () => {
+    if (spawning) return;
+    setSpawning(true);
+    try {
+      const snap = await addCreature();
+      typeMapRef.current[snap.id] = snap.type ?? "raptor";
+      const c = Creature.fromSnapshot(snap);
+      instancesRef.current.push(c);
+      const next = instancesRef.current.map((c) => c.toSnapshot());
+      snapshotsRef.current = next;
+      setSnapshots(next);
+    } catch (err) {
+      console.error("Failed to spawn creature:", err);
+    } finally {
+      setSpawning(false);
+    }
+  }, [spawning]);
+
+  // ── Remove ───────────────────────────────────────────────────────────────
+  const removeCreature = useCallback((id: string) => {
+    instancesRef.current = instancesRef.current.filter((c) => c.id !== id);
+    const next = instancesRef.current.map((c) => c.toSnapshot());
+    snapshotsRef.current = next;
+    setSnapshots(next);
+  }, []);
+
+  // ── Force state change ───────────────────────────────────────────────────
+  const changeCreatureState = useCallback((id: string, state: any) => {
+    instancesRef.current.find((c) => c.id === id)?.changeState(state);
+    const next = instancesRef.current.map((c) => c.toSnapshot());
+    snapshotsRef.current = next;
+    setSnapshots(next);
+  }, []);
+
+  return {
+    snapshots,
+    snapshotsRef,
+    typeMapRef,
+    loading,
+    error,
+    running,
+    setRunning,
+    tick,
+    spawning,
+    spawnCreature,
+    removeCreature,
+    changeCreatureState,
+  };
+}

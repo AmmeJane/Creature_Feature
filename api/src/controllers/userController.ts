@@ -3,31 +3,12 @@ import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 import axios, { AxiosResponse } from "axios";
-import { CREATURE_TYPES } from "../types/CreatureTypes";
+import { CREATURE_TYPES, Creature } from "../types/CreatureTypes";
+import { SpotifyTrack } from "../types/SpotifyTypes";
+import { User } from "../types/UserTypes";
 
 const DATA_FILE = path.join(__dirname, "../data/users.json");
 
-// ----- TYPES -----
-interface Creature {
-  id: string;
-  songId: string;
-  name: string;
-  genes: { size: number; speed: number; colour: number };
-  type: string;
-}
-
-interface User {
-  spotifyId: string;
-  creatures: Creature[];
-}
-
-interface SpotifyTrack {
-  id: string;
-  name: string;
-  popularity: number; // 0–100
-  duration_ms: number; // e.g. 90000–300000
-  explicit: boolean;
-}
 
 // ----- FILE I/O -----
 function readUsers(): Record<string, User> {
@@ -186,7 +167,7 @@ export const addUserCreaturesFromSongs = async (
 };
 
 export const addSingleCreature = async (req: Request, res: Response): Promise<void> => {
-  const spotifyId = (req as any).spotifyId as string;
+  const spotifyId = (req as any).spotifyId as string ?? process.env.FALLBACK_SPOTIFY_ID;
   const token = (req as any).spotifyToken as string;
 
   if (!spotifyId || !token) {
@@ -217,4 +198,33 @@ export const addSingleCreature = async (req: Request, res: Response): Promise<vo
   saveUsers(users);
 
   res.json(creature); // returns just the new one
+};
+
+
+export const getTrackPreview = async (req: Request, res: Response): Promise<void> => {
+  const token  = (req as any).spotifyToken as string;
+  const { songId } = req.params;
+
+  try {
+    // 1. Get track details from Spotify
+    const spotifyRes = await axios.get(`https://api.spotify.com/v1/tracks/${songId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const track = spotifyRes.data;
+    const name   = track.name;
+    const artist = track.artists[0]?.name ?? "";
+    const albumArt = track.album?.images[0]?.url ?? null;
+
+    // 2. Search Deezer for preview
+    const deezerRes = await axios.get(`https://api.deezer.com/search`, {
+      params: { q: `artist:"${artist}" track:"${name}"`, limit: 1 },
+    });
+    const deezerTrack = deezerRes.data?.data?.[0];
+    const previewUrl = deezerTrack?.preview ?? null;
+
+    res.json({ name, artist, albumArt, previewUrl });
+  } catch (err: any) {
+    console.error("Track preview error:", err.response?.data || err.message);
+    res.status(500).json({ error: "Failed to fetch track preview" });
+  }
 };

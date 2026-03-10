@@ -4,57 +4,492 @@
     "creatures": [
       {
         "id": "2kd2ZeOY6grWJjtjAeveIc",
-        "songId": "2kd2ZeOY6grWJjtjAeveIc",
         "name": "Freudian Beast",
         "type": "raptor",
         "genes": {
           "size": 0.46,
-          "speed": 0.8547619047619047,
-          "colour": 0.07999999999999996
+          "speed": 0.8547,
+          "colour": 0.08
         }
       },
       {
         "id": "2J7MImeZUG2bX3jWjAepHN",
-        "songId": "2J7MImeZUG2bX3jWjAepHN",
         "name": "60.000 ISK Beast",
         "type": "elephant",
         "genes": {
           "size": 0.45,
-          "speed": 0.9490380952380952,
-          "colour": 0.09999999999999998
+          "speed": 0.949,
+          "colour": 0.1
         }
       },
       {
         "id": "3rLuup3EQbo8Tr6IBg0Dmc",
-        "songId": "3rLuup3EQbo8Tr6IBg0Dmc",
         "name": "EVERYDOG HAS ITS DAY Beast",
         "type": "elephant",
         "genes": {
           "size": 0.45,
-          "speed": 0.7991619047619047,
-          "colour": 0.09999999999999998
+          "speed": 0.7991,
+          "colour": 0.1
         }
       },
       {
         "id": "5JmjXrRYZyJYmXz72IstSS",
-        "songId": "5JmjXrRYZyJYmXz72IstSS",
         "name": "For God and Country Beast",
         "type": "brachiosaurus",
         "genes": {
           "size": 0.47,
-          "speed": 0.6505285714285715,
-          "colour": 0.06000000000000005
+          "speed": 0.6505,
+          "colour": 0.06
         }
       },
       {
         "id": "1fXBUz1HrQ84gamMN8006V",
-        "songId": "1fXBUz1HrQ84gamMN8006V",
         "name": "Nobodys Fault / Accept My Own Beast",
         "type": "pterodactyl",
         "genes": {
           "size": 0.45,
-          "speed": 0.8169761904761905,
+          "speed": 0.8169,
+          "colour": 0.1
+        }
+      },
+      {
+        "id": "55rXApL8KBessVIpJpH4Fw",
+        "songId": "55rXApL8KBessVIpJpH4Fw",
+        "name": "ego Beast",
+        "type": "stegosaurus",
+        "genes": {
+          "size": 0.5,
+          "speed": 1,
+          "colour": 0
+        }
+      },
+      {
+        "id": "5TQZVwKFbGu7oqhT9J3OLf",
+        "songId": "5TQZVwKFbGu7oqhT9J3OLf",
+        "name": "pissed Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.43,
+          "speed": 0.9149761904761905,
+          "colour": 0.14
+        }
+      },
+      {
+        "id": "0RwB0hA19KjoESVYt3X018",
+        "songId": "0RwB0hA19KjoESVYt3X018",
+        "name": "pardon me Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.43,
+          "speed": 0.7445952380952381,
+          "colour": 0.14
+        }
+      },
+      {
+        "id": "390yegZ59p2YUrszbz2SKh",
+        "songId": "390yegZ59p2YUrszbz2SKh",
+        "name": "Go Beast",
+        "type": "elephant",
+        "genes": {
+          "size": 0.46,
+          "speed": 0.9508952380952381,
+          "colour": 0.07999999999999996
+        }
+      },
+      {
+        "id": "4u1cH1FUE3aJHxyTBVZdd4",
+        "songId": "4u1cH1FUE3aJHxyTBVZdd4",
+        "name": "Count It Up Beast",
+        "type": "elephant",
+        "genes": {
+          "size": 0.43,
+          "speed": 0.8993476190476191,
+          "colour": 0.14
+        }
+      },
+      {
+        "id": "1eh7N11Wxib2KZ5w8eKJ94",
+        "songId": "1eh7N11Wxib2KZ5w8eKJ94",
+        "name": "Appalachia Beast",
+        "type": "elephant",
+        "genes": {
+          "size": 0.41,
+          "speed": 0.7712238095238095,
+          "colour": 0.18000000000000005
+        }
+      },
+      {
+        "id": "68gdFKpX6VAddnn2UFgZVG",
+        "songId": "68gdFKpX6VAddnn2UFgZVG",
+        "name": "bugging! Beast",
+        "type": "trex",
+        "genes": {
+          "size": 0.51,
+          "speed": 0.4919380952380953,
+          "colour": 0.020000000000000018
+        }
+      },
+      {
+        "id": "5oPOob0I5zgbXo3j6Trb2k",
+        "songId": "5oPOob0I5zgbXo3j6Trb2k",
+        "name": "caffeine Beast",
+        "type": "raptor",
+        "genes": {
+          "size": 0.48,
+          "speed": 0.4899714285714286,
+          "colour": 0.040000000000000036
+        }
+      },
+      {
+        "id": "0Gz4Q1Bmyef5yA0G6LIIQZ",
+        "songId": "0Gz4Q1Bmyef5yA0G6LIIQZ",
+        "name": "poster boy Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.8,
+          "speed": 0.8519571428571429,
+          "colour": 0.6000000000000001
+        }
+      },
+      {
+        "id": "5GkQkqMXfHCD6eQbP8A4Om",
+        "songId": "5GkQkqMXfHCD6eQbP8A4Om",
+        "name": "Foreigner Beast",
+        "type": "trex",
+        "genes": {
+          "size": 0.5,
+          "speed": 0.7643428571428571,
+          "colour": 0
+        }
+      },
+      {
+        "id": "2NXtYnEeJbRQ3pqngPCHYO",
+        "songId": "2NXtYnEeJbRQ3pqngPCHYO",
+        "name": "song for when the bar closes Beast",
+        "type": "trex",
+        "genes": {
+          "size": 0.45,
+          "speed": 0.9290619047619048,
           "colour": 0.09999999999999998
+        }
+      },
+      {
+        "id": "6XhcCJstVZzCUk2eBzczFO",
+        "songId": "6XhcCJstVZzCUk2eBzczFO",
+        "name": "pep Beast",
+        "type": "lion",
+        "genes": {
+          "size": 0.39,
+          "speed": 0.8658619047619047,
+          "colour": 0.21999999999999997
+        }
+      },
+      {
+        "id": "4pq1m2je1xAKNzUmONCvdn",
+        "songId": "4pq1m2je1xAKNzUmONCvdn",
+        "name": "do it for me Beast",
+        "type": "raptor",
+        "genes": {
+          "size": 0.41,
+          "speed": 0.7792333333333333,
+          "colour": 0.18000000000000005
+        }
+      },
+      {
+        "id": "1MEa5CKZr7MjUhkPVBnCot",
+        "songId": "1MEa5CKZr7MjUhkPVBnCot",
+        "name": "talking2me Beast",
+        "type": "penguin",
+        "genes": {
+          "size": 0,
+          "speed": 0.780752380952381,
+          "colour": 1
+        }
+      },
+      {
+        "id": "1ql4nLfIzdrzbF0gRk8M3q",
+        "songId": "1ql4nLfIzdrzbF0gRk8M3q",
+        "name": "VICTIM Beast",
+        "type": "stegosaurus",
+        "genes": {
+          "size": 0.33,
+          "speed": 0.525,
+          "colour": 0.33999999999999997
+        }
+      },
+      {
+        "id": "0Nb7NM5S3Ory7AZDaKSJrZ",
+        "songId": "0Nb7NM5S3Ory7AZDaKSJrZ",
+        "name": "running shoes Beast",
+        "type": "stegosaurus",
+        "genes": {
+          "size": 0.31,
+          "speed": 0.55,
+          "colour": 0.38
+        }
+      },
+      {
+        "id": "66GoQ5s67RsxaZPeLbYdoV",
+        "songId": "66GoQ5s67RsxaZPeLbYdoV",
+        "name": "just not sure Beast",
+        "type": "monkey",
+        "genes": {
+          "size": 0.4,
+          "speed": 0.6180666666666667,
+          "colour": 0.19999999999999996
+        }
+      },
+      {
+        "id": "6hxowqRsDm1fsm00y2eHJP",
+        "songId": "6hxowqRsDm1fsm00y2eHJP",
+        "name": "sidekick Beast",
+        "type": "elephant",
+        "genes": {
+          "size": 0.59,
+          "speed": 1,
+          "colour": 0.17999999999999994
+        }
+      },
+      {
+        "id": "23wMeomYG5labWnSVNFv2z",
+        "songId": "23wMeomYG5labWnSVNFv2z",
+        "name": "living proof (that it hurts) Beast",
+        "type": "monkey",
+        "genes": {
+          "size": 0.45,
+          "speed": 0.9362333333333334,
+          "colour": 0.09999999999999998
+        }
+      },
+      {
+        "id": "0uLIQiuVCXBoe2w8n4Thyz",
+        "songId": "0uLIQiuVCXBoe2w8n4Thyz",
+        "name": "huh Beast",
+        "type": "elephant",
+        "genes": {
+          "size": 0.44,
+          "speed": 0.918647619047619,
+          "colour": 0.12
+        }
+      },
+      {
+        "id": "4brnimm5aVelWyWXJ22skt",
+        "songId": "4brnimm5aVelWyWXJ22skt",
+        "name": "and the highbeams were on Beast",
+        "type": "raptor",
+        "genes": {
+          "size": 0.38,
+          "speed": 0.857452380952381,
+          "colour": 0.24
+        }
+      },
+      {
+        "id": "7urmCgDrwpRcHeEN4s54SB",
+        "songId": "7urmCgDrwpRcHeEN4s54SB",
+        "name": "spending money but it’s beautiful Beast",
+        "type": "raptor",
+        "genes": {
+          "size": 0,
+          "speed": 1,
+          "colour": 1
+        }
+      },
+      {
+        "id": "07yzqNbU1cdabMma61GnPH",
+        "songId": "07yzqNbU1cdabMma61GnPH",
+        "name": "pree me at the party Beast",
+        "type": "pterodactyl",
+        "genes": {
+          "size": 0.46,
+          "speed": 0.9038285714285714,
+          "colour": 0.07999999999999996
+        }
+      },
+      {
+        "id": "25oJjxP1cVjghqjfwEVPG6",
+        "songId": "25oJjxP1cVjghqjfwEVPG6",
+        "name": "venus fly trap Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.54,
+          "speed": 0.020066666666666677,
+          "colour": 0.08000000000000007
+        }
+      },
+      {
+        "id": "2TmUt0ofWMa02MdYkKhK4C",
+        "songId": "2TmUt0ofWMa02MdYkKhK4C",
+        "name": "Pigstep (Stereo Mix) Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.6,
+          "speed": 0.7159666666666666,
+          "colour": 0.19999999999999996
+        }
+      },
+      {
+        "id": "1JCcJJpOyMphGWHbSMpNIt",
+        "songId": "1JCcJJpOyMphGWHbSMpNIt",
+        "name": "huh Beast",
+        "type": "elephant",
+        "genes": {
+          "size": 0.4,
+          "speed": 0.918647619047619,
+          "colour": 0.19999999999999996
+        }
+      },
+      {
+        "id": "5elnVly5IoBj65itMUMfOY",
+        "songId": "5elnVly5IoBj65itMUMfOY",
+        "name": "if u love me now then shoot to kill Beast",
+        "type": "lion",
+        "genes": {
+          "size": 0.43,
+          "speed": 0.9402619047619047,
+          "colour": 0.14
+        }
+      },
+      {
+        "id": "4ST1nbdDie0CFmDd9mINwO",
+        "songId": "4ST1nbdDie0CFmDd9mINwO",
+        "name": "Nothing, Absolutely Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.55,
+          "speed": 0.35329999999999995,
+          "colour": 0.10000000000000009
+        }
+      },
+      {
+        "id": "4yR7QwLrd5ctle68uKaKrt",
+        "songId": "4yR7QwLrd5ctle68uKaKrt",
+        "name": "search & destroy Beast",
+        "type": "elephant",
+        "genes": {
+          "size": 0.44,
+          "speed": 0.8685190476190476,
+          "colour": 0.12
+        }
+      },
+      {
+        "id": "5QD9PUqyVz8syPaZL4HAbB",
+        "songId": "5QD9PUqyVz8syPaZL4HAbB",
+        "name": "nice Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.54,
+          "speed": 0.7500333333333333,
+          "colour": 0.08000000000000007
+        }
+      },
+      {
+        "id": "5oRnhpl1cQN0zxwsV4K2m5",
+        "songId": "5oRnhpl1cQN0zxwsV4K2m5",
+        "name": "god is dead Beast",
+        "type": "trex",
+        "genes": {
+          "size": 0.41,
+          "speed": 0.8034714285714286,
+          "colour": 0.18000000000000005
+        }
+      },
+      {
+        "id": "2h7vLf7jv2KsRb7fV77w5H",
+        "songId": "2h7vLf7jv2KsRb7fV77w5H",
+        "name": "crush Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.63,
+          "speed": 0.7322619047619048,
+          "colour": 0.26
+        }
+      },
+      {
+        "id": "6C2nVSSeXNqfoY8t6tliZ4",
+        "songId": "6C2nVSSeXNqfoY8t6tliZ4",
+        "name": "jeans Beast",
+        "type": "zebra",
+        "genes": {
+          "size": 0.68,
+          "speed": 0.5654380952380953,
+          "colour": 0.3600000000000001
+        }
+      },
+      {
+        "id": "0oGp7mPtGhEc8vnHMx2O7w",
+        "songId": "0oGp7mPtGhEc8vnHMx2O7w",
+        "name": "SANDPAPER Beast",
+        "type": "stegosaurus",
+        "genes": {
+          "size": 0.26,
+          "speed": 0.6381857142857144,
+          "colour": 0.48
+        }
+      },
+      {
+        "id": "2sybZ1GJwWBdE4OksFBmaF",
+        "songId": "2sybZ1GJwWBdE4OksFBmaF",
+        "name": "cabin fever (feat. my literal mum) Beast",
+        "type": "stegosaurus",
+        "genes": {
+          "size": 0.28,
+          "speed": 0.5187190476190476,
+          "colour": 0.43999999999999995
+        }
+      },
+      {
+        "id": "0EypgwiH3kjeT1cImoMX55",
+        "songId": "0EypgwiH3kjeT1cImoMX55",
+        "name": "the car Beast",
+        "type": "stegosaurus",
+        "genes": {
+          "size": 0.43,
+          "speed": 0.5731761904761905,
+          "colour": 0.14
+        }
+      },
+      {
+        "id": "4IHv8y8KxnuXPRMsF6twiE",
+        "songId": "4IHv8y8KxnuXPRMsF6twiE",
+        "name": "keep u safe Beast",
+        "type": "crocodile",
+        "genes": {
+          "size": 0.27,
+          "speed": 0.8707523809523809,
+          "colour": 0.45999999999999996
+        }
+      },
+      {
+        "id": "2AnSjNRJ5K9jCLNHMmYdEM",
+        "songId": "2AnSjNRJ5K9jCLNHMmYdEM",
+        "name": "Weird Beast",
+        "type": "brachiosaurus",
+        "genes": {
+          "size": 0.47,
+          "speed": 1,
+          "colour": 0.06000000000000005
+        }
+      },
+      {
+        "id": "3whHB0yrcpTTaAlrLFdCsV",
+        "songId": "3whHB0yrcpTTaAlrLFdCsV",
+        "name": "tijuana freestyle Beast",
+        "type": "elephant",
+        "genes": {
+          "size": 0.41,
+          "speed": 0.9177904761904762,
+          "colour": 0.18000000000000005
+        }
+      },
+      {
+        "id": "6B2Y35PxX3pidljdwFuDHB",
+        "songId": "6B2Y35PxX3pidljdwFuDHB",
+        "name": "1984 Beast",
+        "type": "raptor",
+        "genes": {
+          "size": 0.33,
+          "speed": 0.7132285714285714,
+          "colour": 0.33999999999999997
         }
       }
     ]

@@ -1,5 +1,6 @@
 import * as THREE from "three";
-
+import { buildZooAnimal, ZOO_ANIMAL_TYPES } from "./ZooMeshes";
+import type { ZooAnimalType } from "./ZooMeshes";
 // ── Each dino is built from primitives ───────────────────────────────────────
 
 function addPart(group: THREE.Group, geo: THREE.BufferGeometry, color: number, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1) {
@@ -177,4 +178,21 @@ export function buildDino(type: DinoType, color: number): THREE.Group {
     case "brachiosaurus": return buildBrachiosaurus(color);
     case "raptor":        return buildRaptor(color);
   }
+}
+
+
+export type CreatureType = DinoType | ZooAnimalType;
+
+export const ALL_CREATURE_TYPES: CreatureType[] = [
+  DINO_TYPES,
+  ZOO_ANIMAL_TYPES,
+];
+
+
+
+export function buildCreature(type: CreatureType, color: number): THREE.Group {
+  if ((DINO_TYPES as string[]).includes(type)) {
+    return buildDino(type as DinoType, color);
+  }
+  return buildZooAnimal(type as ZooAnimalType, color);
 }

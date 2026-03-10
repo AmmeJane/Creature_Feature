@@ -44,7 +44,7 @@ export function buildLion(color: number): THREE.Group {
   return g;
 }
 
-// ── 🐘 Elephant ───────────────────────────────────────────────────────────────
+// Elephant Mesh
 export function buildElephant(color: number): THREE.Group {
   const g = new THREE.Group();
   // Massive body
@@ -71,7 +71,7 @@ export function buildElephant(color: number): THREE.Group {
   return g;
 }
 
-// ── 🦒 Giraffe ────────────────────────────────────────────────────────────────
+// Giraffe Mesh
 export function buildGiraffe(color: number): THREE.Group {
   const g = new THREE.Group();
   // Body
@@ -98,7 +98,7 @@ export function buildGiraffe(color: number): THREE.Group {
   return g;
 }
 
-// ── 🐊 Crocodile ──────────────────────────────────────────────────────────────
+// Crocodile Mesh
 export function buildCrocodile(color: number): THREE.Group {
   const g = new THREE.Group();
   // Long flat body
@@ -126,7 +126,7 @@ export function buildCrocodile(color: number): THREE.Group {
   return g;
 }
 
-// ── 🦓 Zebra ──────────────────────────────────────────────────────────────────
+// Zebra Mesh
 export function buildZebra(color: number): THREE.Group {
   const g = new THREE.Group();
   // Body
@@ -153,7 +153,7 @@ export function buildZebra(color: number): THREE.Group {
   return g;
 }
 
-// ── 🐒 Monkey ─────────────────────────────────────────────────────────────────
+// Monkey Mesh
 export function buildMonkey(color: number): THREE.Group {
   const g = new THREE.Group();
   // Body (upright, smaller)
