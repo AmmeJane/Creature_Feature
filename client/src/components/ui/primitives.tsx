@@ -1,8 +1,8 @@
 import { S } from "../../constants/colours";
 
-export function NavPill({ children, active }: { children: React.ReactNode; active?: boolean }) {
+export function NavPill({ children, active, onClick }: { children: React.ReactNode; active?: boolean; onClick?: () => void }) {
   return (
-    <button style={{ background: active ? S.white : S.elevated, border:"none", borderRadius:20, padding:"6px 14px", color: active ? S.black : S.white, fontSize:13, fontWeight:700, cursor:"pointer", whiteSpace:"nowrap" }}>
+    <button onClick={onClick} style={{ background: active ? S.white : S.elevated, border:"none", borderRadius:20, padding:"6px 14px", color: active ? S.black : S.white, fontSize:13, fontWeight:700, cursor:"pointer", whiteSpace:"nowrap" }}>
       {children}
     </button>
   );

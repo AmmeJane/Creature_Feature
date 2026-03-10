@@ -77,7 +77,7 @@ function createCreatureFromTrack(song: SpotifyTrack): Creature {
 
   // peaks at 0 and 1, dips in the middle
   const norm = song.popularity / 100;
-  const colour = Math.abs((norm - 0.5) * 2); // 0 at pop=50, 1 at pop=0 or 100
+  const colour = song.popularity / 100;
 
   console.log(`Created creature from "${song.name}":`, { size, speed, colour });
 

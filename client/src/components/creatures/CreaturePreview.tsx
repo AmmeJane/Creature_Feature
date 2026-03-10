@@ -1,76 +1,88 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { buildDino } from "./DinoMeshes";
-import type { DinoType } from "./DinoMeshes";
-import { buildCreature } from "./DinoMeshes";
-import type { CreatureType } from "./DinoMeshes";
+import { buildProceduralCreature, categoryFromType } from "./ProceduralCreature";
 
 interface CreaturePreviewProps {
-  dinoType: DinoType;
-  colour:   string;  // hex string e.g. "#E91429"
-  size?:    number;  // canvas width & height in px, default 268
+  creatureType: string;
+  colour:       string;   // hex string e.g. "#1DB954"
+  size?:        number;   // canvas px, default 268
+  id?:          string;   // creature id for deterministic part selection
+  sizeGene?:    number;
+  speedGene?:   number;
 }
 
-export function CreaturePreview({ dinoType, colour, size = 268 }: CreaturePreviewProps) {
+export function CreaturePreview({
+  creatureType,
+  colour,
+  size = 268,
+  id = "default",
+  sizeGene = 0.5,
+  speedGene = 0.5,
+}: CreaturePreviewProps) {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = mountRef.current;
     if (!el) return;
 
-    // ── Renderer ────────────────────────────────────────────────────────────
+    // ── Renderer ─────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(size, size);
     renderer.setClearColor(0x000000, 0);
     el.appendChild(renderer.domElement);
 
-    // ── Scene ────────────────────────────────────────────────────────────────
+    // ── Scene ─────────────────────────────────────────────────────────────
     const scene  = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
     camera.position.set(0, 0.5, 3.5);
     camera.lookAt(0, 0, 0);
 
-    // ── Lights ───────────────────────────────────────────────────────────────
+    // ── Lights ────────────────────────────────────────────────────────────
     scene.add(new THREE.AmbientLight(0xffffff, 0.7));
     const key = new THREE.DirectionalLight(0xfff8dc, 1.4);
     key.position.set(3, 5, 5);
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0xaaddff, 0.35);
+    const fill = new THREE.DirectionalLight(0xaaddff, 0.4);
     fill.position.set(-3, 2, 3);
     scene.add(fill);
 
-    // ── Mesh ─────────────────────────────────────────────────────────────────
+    // ── Creature mesh ─────────────────────────────────────────────────────
     const hex   = parseInt(colour.replace("#", ""), 16);
-    const group = buildDino(dinoType, hex);
+    const group = buildProceduralCreature({
+      id,
+      category: categoryFromType(creatureType),
+      color:    hex,
+      size:     sizeGene,
+      speed:    speedGene,
+    });
     scene.add(group);
 
-    // ── Animation loop ───────────────────────────────────────────────────────
+    // ── Animation loop ────────────────────────────────────────────────────
     let raf: number;
     let t = 0;
     const loop = () => {
       raf = requestAnimationFrame(loop);
       t += 0.018;
-      group.rotation.y  = t;
-      group.position.y  = Math.sin(t * 1.2) * 0.06;
+      group.rotation.y = t;
+      group.position.y = Math.sin(t * 1.2) * 0.06;
       renderer.render(scene, camera);
     };
     loop();
 
-    // ── Cleanup ──────────────────────────────────────────────────────────────
+    // ── Cleanup ───────────────────────────────────────────────────────────
     return () => {
       cancelAnimationFrame(raf);
+      group.traverse(child => {
+        if (child instanceof THREE.Mesh) {
+          child.geometry.dispose();
+          (child.material as THREE.Material).dispose();
+        }
+      });
       renderer.dispose();
-      if (el.contains(renderer.domElement)) {
-        el.removeChild(renderer.domElement);
-      }
+      if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
     };
-  }, [dinoType, colour, size]);
+  }, [creatureType, colour, size, id, sizeGene, speedGene]);
 
-  return (
-    <div
-      ref={mountRef}
-      style={{ width: size, height: size, display: "block", lineHeight: 0 }}
-    />
-  );
+  return <div ref={mountRef} style={{ width: size, height: size, display: "block", lineHeight: 0 }} />;
 }

@@ -2,11 +2,12 @@ import type { CreatureSnapshot } from "../types/CreatureTypes";
 import { S, COLOUR_HEX, STATE_COLOUR, STATES } from "../constants/colours";
 import { SpotifyBar, StatCard } from "./ui/primitives";
 import { CreaturePreview } from "../components/creatures/CreaturePreview";
-import type { DinoType } from "../components/creatures/DinoMeshes";
+import type { CreatureCategory } from "../components/creatures/ProceduralCreature";
+import { geneToColourHex } from "../components/creatures/ProceduralCreature";
 
 interface NowPlayingProps {
   sel: CreatureSnapshot;
-  selType: DinoType;
+  selType: CreatureCategory;
   onClose: () => void;
   onRemove: (id: string) => void;
   onChangeState: (id: string, state: any) => void;
@@ -19,7 +20,7 @@ export function NowPlaying({
   onRemove,
   onChangeState,
 }: NowPlayingProps) {
-    const colour = COLOUR_HEX[sel.colour] ?? "#fff";
+    const colour = geneToColourHex(sel.genes.colour);
   return (
     <div
       style={{
@@ -31,6 +32,7 @@ export function NowPlaying({
         flexShrink: 0,
       }}
     >
+
       <div
         style={{
           padding: "16px 16px 0",
@@ -63,52 +65,29 @@ export function NowPlaying({
           ✕
         </button>
       </div>
-
-      {/* Name */}
-      <div style={{ padding: "0 16px" }}>
-        <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: -0.3 }}>
-          {sel.name}
-        </div>
-        <div
-          style={{
-            fontSize: 12,
-            color: S.muted,
-            marginTop: 2,
-            textTransform: "capitalize",
-          }}
-        ></div>
+        {/* 3D creature preview */}
+    <div style={{ margin:"16px 16px 12px", borderRadius:8, background:`linear-gradient(135deg, ${colour}33, ${colour}08)`, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center", aspectRatio:"1", boxShadow:`0 8px 32px ${colour}44` }}>
+      <CreaturePreview 
+          creatureType={selType} 
+          colour={colour} 
+          size={268} 
+          state={sel.state}
+          id={sel.id}
+          sizeGene={sel.genes.size}
+          speedGene={sel.genes.speed}
+        />
+      </div>
+       {/* Name + type */}
+      <div style={{ padding:"0 16px" }}>
+        <div style={{ fontSize:18, fontWeight:700, letterSpacing:-0.3 }}>{sel.name}</div>
+        <div style={{ fontSize:12, color:S.muted, marginTop:2, textTransform:"capitalize" }}>{selType}</div>
       </div>
 
       {/* State badge */}
-      <div style={{ padding: "10px 16px 0" }}>
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            background: STATE_COLOUR[sel.state] + "22",
-            border: `1px solid ${STATE_COLOUR[sel.state]}44`,
-            borderRadius: 12,
-            padding: "4px 10px",
-          }}
-        >
-          <div
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: STATE_COLOUR[sel.state],
-            }}
-          />
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              color: STATE_COLOUR[sel.state],
-            }}
-          >
-            {sel.state.toUpperCase()}
-          </span>
+      <div style={{ padding:"10px 16px 0" }}>
+        <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:STATE_COLOUR[sel.state]+"22", border:`1px solid ${STATE_COLOUR[sel.state]}44`, borderRadius:12, padding:"4px 10px" }}>
+          <div style={{ width:6, height:6, borderRadius:"50%", background:STATE_COLOUR[sel.state] }} />
+          <span style={{ fontSize:11, fontWeight:600, color:STATE_COLOUR[sel.state] }}>{sel.state.toUpperCase()}</span>
         </div>
       </div>
 
@@ -134,7 +113,7 @@ export function NowPlaying({
         <SpotifyBar
           label="COLOUR GENE"
           value={sel.genes.colour}
-          color={COLOUR_HEX[sel.colour] ?? "#fff"}
+          color={geneToColourHex(sel.genes.colour)?? "#fff"}
         />
       </div>
 
@@ -155,29 +134,13 @@ export function NowPlaying({
         <StatCard label="SPEED" value={sel.speed} color="#509BF5" />
         <StatCard
           label="COLOUR"
-          value={sel.colour}
-          color={COLOUR_HEX[sel.colour] ?? "#fff"}
+          value={geneToColourHex(sel.genes.colour)?? "#fff"}
+          color={geneToColourHex(sel.genes.colour)?? "#fff"}
           isText
         />
       
       </div>
-    {/* 3D creature preview */}
-      <div style={{ margin:"16px 16px 12px", borderRadius:8, background:`linear-gradient(135deg, ${colour}33, ${colour}08)`, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center", aspectRatio:"1", boxShadow:`0 8px 32px ${colour}44` }}>
-        <CreaturePreview dinoType={selType} colour={colour} size={268} />
-      </div>
-       {/* Name + type */}
-      <div style={{ padding:"0 16px" }}>
-        <div style={{ fontSize:18, fontWeight:700, letterSpacing:-0.3 }}>{sel.name}</div>
-        <div style={{ fontSize:12, color:S.muted, marginTop:2, textTransform:"capitalize" }}>{selType}</div>
-      </div>
 
-      {/* State badge */}
-      <div style={{ padding:"10px 16px 0" }}>
-        <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:STATE_COLOUR[sel.state]+"22", border:`1px solid ${STATE_COLOUR[sel.state]}44`, borderRadius:12, padding:"4px 10px" }}>
-          <div style={{ width:6, height:6, borderRadius:"50%", background:STATE_COLOUR[sel.state] }} />
-          <span style={{ fontSize:11, fontWeight:600, color:STATE_COLOUR[sel.state] }}>{sel.state.toUpperCase()}</span>
-        </div>
-      </div>
 
       {/* State controls */}
       <div style={{ padding: "0 16px 8px" }}>

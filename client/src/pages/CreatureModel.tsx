@@ -7,10 +7,8 @@ import type {
 //State of the creature
 
 const STATE_TRANSITIONS: Record<CreatureState, CreatureState[]> = {
-  Idle: ["Moving", "Sleeping", "Idle"],
-  Moving: ["Idle", "Moving","Running"],
-  Sleeping: ["Idle"],
-  Running: ["Running", "Idle"],
+  Idle: ["Moving", "Idle"],
+  Moving: ["Idle", "Moving"],
 };
 
 //Colour of the creature
@@ -65,8 +63,8 @@ export class Creature {
     this.colourGene = opts.colourGene ?? Math.random();
 
     // Random spawn position
-    this.x = (Math.random() - 0.5) * 18;
-    this.y = (Math.random() - 0.5) * 10;
+    this.x = (Math.random() - 0.5) * 24;
+    this.y = (Math.random() - 0.5) * 24;
     this.vx = (Math.random() - 0.5) * 0.04;
     this.vy = (Math.random() - 0.5) * 0.04;
 
@@ -143,18 +141,11 @@ export class Creature {
   /** Advance one simulation step: run behaviour + maybe change state */
 
   update(): void {
-    
-
     switch (this.state) {
       case "Moving":
         //console.log(` [${this.name}] moves at speed ${this.speed}`);
         break;
-      case "Sleeping":
-        //console.log(` [${this.name}] is sleeping...`);
-        break;
-      case "Running":
-        //console.log(` [${this.name}] is running!`);
-        break;
+
       case "Idle":
         //console.log(` [${this.name}] is idle.`);
         break;
@@ -162,7 +153,7 @@ export class Creature {
 
     // Position update
     const speedFactor =
-      this.state === "Sleeping" ? 0 : this.state === "Running" ? 2.5 : 1;
+      this.state === "Idle" ? 0 : this.state === "Moving" ? 2.5 : 1;
     const base = 0.008 + this.speedGene * 0.035;
     this.vx += (Math.random() - 0.5) * 0.006;
     this.vy += (Math.random() - 0.5) * 0.006;
@@ -171,24 +162,24 @@ export class Creature {
     this.vy = (this.vy / mag) * base * speedFactor;
     this.x += this.vx;
     this.y += this.vy;
-    if (this.x > 10) {
-      this.x = 10;
+    if (this.x > 12) {
+      this.x = 12;
       this.vx *= -1;
     }
-    if (this.x < -10) {
-      this.x = -10;
+    if (this.x < -12) {
+      this.x = -12;
       this.vx *= -1;
     }
-    if (this.y > 6) {
-      this.y = 6;
+    if (this.y > 12) {
+      this.y = 12;
       this.vy *= -1;
     }
-    if (this.y < -6) {
-      this.y = -6;
+    if (this.y < -12) {
+      this.y = -12;
       this.vy *= -1;
     }
 
-    if (RandomGenerator.chance(0.005)) this.randomStateChange();
+    if (RandomGenerator.chance(0.15)) this.randomStateChange();
     if (RandomGenerator.chance(0.002)) this.mutate(0.02);
   }
   //Getters

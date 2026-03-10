@@ -2,6 +2,8 @@ import type { CreatureSnapshot } from "../types/CreatureTypes";
 import { S, COLOUR_HEX, STATE_COLOUR } from "../constants/colours";
 import { FilterPill } from "./ui/primitives";
 import { getCreatureEmoji } from "../utils/creatureHelpers";
+import type { CreatureType} from "../components/creatures/DinoMeshes";
+import { geneToColourHex } from "../components/creatures/ProceduralCreature";
 
 interface SidebarProps {
   snapshots: CreatureSnapshot[];
@@ -85,7 +87,7 @@ export function Sidebar({
 
       <div style={{ flex: 1, overflowY: "auto", padding: "0 8px" }}>
         {snapshots.map((c) => {
-          const type = typeMapRef.current[c.id] ?? "raptor";
+          const type: CreatureType = typeMapRef.current[c.id] ?? "raptor";
           const emoji = getCreatureEmoji(type);
           const isActive = selected === c.id;
           const isHov = hoveredId === c.id;
@@ -116,17 +118,17 @@ export function Sidebar({
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  background: `linear-gradient(135deg, ${COLOUR_HEX[c.colour] ?? "#fff"}88, ${COLOUR_HEX[c.colour] ?? "#fff"}22)`,
+                  background: `linear-gradient(135deg, ${geneToColourHex(c.genes.colour) ?? "#fff"}88, ${geneToColourHex(c.genes.colour) ?? "#fff"}22)`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 22,
                   flexShrink: 0,
                   border: isActive
-                    ? `1px solid ${COLOUR_HEX[c.colour]}`
+                    ? `1px solid ${geneToColourHex(c.genes.colour) ?? "#fff"}`
                     : "1px solid transparent",
                   boxShadow: isActive
-                    ? `0 0 12px ${COLOUR_HEX[c.colour]}44`
+                    ? `0 0 12px ${geneToColourHex(c.genes.colour) ?? "#fff"}44`
                     : "none",
                   transition: "all 0.2s",
                 }}

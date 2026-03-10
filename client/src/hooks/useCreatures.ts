@@ -2,28 +2,31 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { Creature } from "../pages/CreatureModel";
 import type { CreatureSnapshot } from "../types/CreatureTypes";
 import { fetchCreatures, addCreature } from "../api/creature";
+import { categoryFromType, generateCreatureName } from "../components/creatures/ProceduralCreature";
 
 export function useCreatures() {
   const instancesRef = useRef<Creature[]>([]);
-  const typeMapRef = useRef<Record<string, string>>({});
+  const typeMapRef   = useRef<Record<string, string>>({});
   const snapshotsRef = useRef<CreatureSnapshot[]>([]);
 
   const [snapshots, setSnapshots] = useState<CreatureSnapshot[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [running, setRunning] = useState(true);
-  const [tick, setTick] = useState(0);
-  const [spawning, setSpawning] = useState(false);
+  const [loading,   setLoading]   = useState(true);
+  const [error,     setError]     = useState<string | null>(null);
+  const [running,   setRunning]   = useState(true);
+  const [tick,      setTick]      = useState(0);
+  const [spawning,  setSpawning]  = useState(false);
 
   // ── Load from API ────────────────────────────────────────────────────────
   useEffect(() => {
     fetchCreatures()
       .then((snaps) => {
         instancesRef.current = [];
-        typeMapRef.current = {};
+        typeMapRef.current   = {};
         snaps.forEach((s: any) => {
+          const category = categoryFromType(s.type ?? "mammal");
+          s.name = generateCreatureName(s.id, category, s.name);
           instancesRef.current.push(Creature.fromSnapshot(s));
-          typeMapRef.current[s.id] = s.type ?? "raptor";
+          typeMapRef.current[s.id] = s.type ?? "mammal";
         });
         const initial = instancesRef.current.map((c) => c.toSnapshot());
         snapshotsRef.current = initial;
@@ -35,7 +38,7 @@ export function useCreatures() {
         const fallback = Array.from({ length: 5 }, () => new Creature());
         instancesRef.current = fallback;
         fallback.forEach((c) => {
-          typeMapRef.current[c.id] = "raptor";
+          typeMapRef.current[c.id] = "mammal";
         });
         const initial = fallback.map((c) => c.toSnapshot());
         snapshotsRef.current = initial;
@@ -62,8 +65,10 @@ export function useCreatures() {
     if (spawning) return;
     setSpawning(true);
     try {
-      const snap = await addCreature();
-      typeMapRef.current[snap.id] = snap.type ?? "raptor";
+      const snap     = await addCreature();
+      const category = categoryFromType(snap.type ?? "mammal");
+      snap.name      = generateCreatureName(snap.id, category, snap.name);
+      typeMapRef.current[snap.id] = snap.type ?? "mammal";
       const c = Creature.fromSnapshot(snap);
       instancesRef.current.push(c);
       const next = instancesRef.current.map((c) => c.toSnapshot());

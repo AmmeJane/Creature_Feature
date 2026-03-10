@@ -19,7 +19,7 @@ function addPart(
   return mesh;
 }
 
-// ── 🦁 Lion ───────────────────────────────────────────────────────────────────
+// Lion Mesh
 export function buildLion(color: number): THREE.Group {
   const g = new THREE.Group();
   // Body

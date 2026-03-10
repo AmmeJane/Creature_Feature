@@ -184,8 +184,8 @@ export function buildDino(type: DinoType, color: number): THREE.Group {
 export type CreatureType = DinoType | ZooAnimalType;
 
 export const ALL_CREATURE_TYPES: CreatureType[] = [
-  DINO_TYPES,
-  ZOO_ANIMAL_TYPES,
+  (DINO_TYPES as CreatureType[]),
+  (ZOO_ANIMAL_TYPES as CreatureType[]),
 ];
 
 
