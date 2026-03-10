@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 import axios, { AxiosResponse } from "axios";
+import { CREATURE_TYPES } from "../types/CreatureTypes";
 
 const DATA_FILE = path.join(__dirname, "../data/users.json");
 
@@ -12,6 +13,7 @@ interface Creature {
   songId: string;
   name: string;
   genes: { size: number; speed: number; colour: number };
+  type: string;
 }
 
 interface User {
@@ -22,13 +24,9 @@ interface User {
 interface SpotifyTrack {
   id: string;
   name: string;
-}
-
-interface AudioFeatures {
-  id: string;
-  danceability: number;
-  tempo: number;
-  valence: number;
+  popularity: number; // 0–100
+  duration_ms: number; // e.g. 90000–300000
+  explicit: boolean;
 }
 
 // ----- FILE I/O -----
@@ -43,73 +41,79 @@ function saveUsers(users: Record<string, User>): void {
 }
 
 // ----- SPOTIFY API -----
-async function getUserTopTracks(token: string, limit = 5): Promise<SpotifyTrack[]> {
+async function getUserTopTracks(
+  token: string,
+  limit = 5,
+): Promise<SpotifyTrack[]> {
   try {
     const res: AxiosResponse<{ items: any[] }> = await axios.get(
       "https://api.spotify.com/v1/me/top/tracks",
       {
         headers: { Authorization: `Bearer ${token}` },
         params: { limit, time_range: "long_term" },
-      }
+      },
     );
 
-    return res.data.items.map((t) => ({ id: t.id as string, name: t.name as string }));
+    return res.data.items.map((t) => ({
+      id: t.id as string,
+      name: t.name as string,
+      popularity: t.popularity as number,
+      duration_ms: t.duration_ms as number,
+      explicit: t.explicit as boolean,
+    }));
   } catch (err: unknown) {
-    const msg = axios.isAxiosError(err) ? err.response?.data || err.message : String(err);
+    const msg = axios.isAxiosError(err)
+      ? err.response?.data || err.message
+      : String(err);
     console.error("Spotify API error (top tracks):", msg);
     return [];
   }
 }
 
-async function getAudioFeatures(token: string, trackIds: string[]): Promise<Record<string, AudioFeatures>> {
-  const featuresMap: Record<string, AudioFeatures> = {};
-  if (!trackIds.length) return featuresMap;
-
-  const batchSize = 100;
-  for (let i = 0; i < trackIds.length; i += batchSize) {
-    const batch = trackIds.slice(i, i + batchSize);
-    try {
-      const res: AxiosResponse<{ audio_features: AudioFeatures[] }> = await axios.get(
-        "https://api.spotify.com/v1/audio-features",
-        { headers: { Authorization: `Bearer ${token}` }, params: { ids: batch.join(",") } }
-      );
-
-      res.data.audio_features.forEach(f => { if (f) featuresMap[f.id] = f; });
-    } catch (err: unknown) {
-      const msg = axios.isAxiosError(err) ? err.response?.data || err.message : String(err);
-      console.error("Spotify API error (audio features):", msg);
-    }
+function pickWeightedType(): string {
+  const total = CREATURE_TYPES.reduce((sum, [, w]) => sum + w, 0);
+  let roll = Math.random() * total;
+  for (const [type, weight] of CREATURE_TYPES) {
+    roll -= weight;
+    if (roll <= 0) return type;
   }
-
-  console.log("Fetched audio features:", featuresMap);
-  return featuresMap;
+  return CREATURE_TYPES[0][0];
 }
-// ----- CREATE CREATURE -----
-function createCreatureFromSongWithFeatures(song: SpotifyTrack, features?: AudioFeatures): Creature {
-  if (!features) {
-    return {
-      id: song.id,
-      songId: song.id,
-      name: `${song.name} Beast`,
-      genes: { size: 0.5, speed: 0.5, colour: 0.5 },
-    };
-  }
 
-  // Map Spotify traits directly to creature genes
-  const size = features.danceability;               // danceability → size
-  const speed = (features.tempo - 50) / (200 - 50); // tempo normalized 50–200 BPM → 0–1
-  const colour = features.valence;                 // valence → colour (0–1)
+// ----- CREATE CREATURE -----
+// Uses only fields from the tracks endpoint (audio-features API is deprecated)
+function createCreatureFromTrack(song: SpotifyTrack): Creature {
+  // popularity 0–100 → size 0–1 (popular songs = bigger creature)
+  const size = song.popularity / 100;
+
+  // duration: typical range 90s–5min (90k–300k ms), normalised then inverted
+  // so shorter songs = faster creature
+  const durationNorm = Math.min(
+    Math.max((song.duration_ms - 90_000) / (300_000 - 90_000), 0),
+    1,
+  );
+  const speed = 1 - durationNorm;
+
+  // peaks at 0 and 1, dips in the middle
+  const norm = song.popularity / 100;
+  const colour = Math.abs((norm - 0.5) * 2); // 0 at pop=50, 1 at pop=0 or 100
+
+  console.log(`Created creature from "${song.name}":`, { size, speed, colour });
 
   return {
     id: song.id,
     songId: song.id,
     name: `${song.name} Beast`,
+    type: pickWeightedType(),
     genes: { size, speed, colour },
   };
 }
 
 // ----- CONTROLLERS -----
-export const createUserAndGenerateCreatures = async (req: Request, res: Response): Promise<void> => {
+export const createUserAndGenerateCreatures = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const spotifyId = (req as any).spotifyId as string;
   const token = (req as any).spotifyToken as string;
 
@@ -121,11 +125,7 @@ export const createUserAndGenerateCreatures = async (req: Request, res: Response
   const users = readUsers();
   if (!users[spotifyId]) {
     const songs = await getUserTopTracks(token, 5);
-    const featuresMap = await getAudioFeatures(token, songs.map((s) => s.id));
-
-    const creatures = songs.map((song) =>
-      createCreatureFromSongWithFeatures(song, featuresMap[song.id])
-    );
+    const creatures = songs.map(createCreatureFromTrack);
 
     users[spotifyId] = { spotifyId, creatures };
     saveUsers(users);
@@ -134,7 +134,10 @@ export const createUserAndGenerateCreatures = async (req: Request, res: Response
   res.json(users[spotifyId].creatures);
 };
 
-export const getUserCreaturesController = (req: Request, res: Response): void => {
+export const getUserCreaturesController = (
+  req: Request,
+  res: Response,
+): void => {
   const spotifyId = (req as any).spotifyId as string;
   if (!spotifyId) {
     res.status(400).json({ error: "Spotify ID missing" });
@@ -151,7 +154,10 @@ export const getUserCreaturesController = (req: Request, res: Response): void =>
   res.json(user.creatures);
 };
 
-export const addUserCreaturesFromSongs = async (req: Request, res: Response): Promise<void> => {
+export const addUserCreaturesFromSongs = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const spotifyId = (req as any).spotifyId as string;
   const token = (req as any).spotifyToken as string;
 
@@ -168,9 +174,7 @@ export const addUserCreaturesFromSongs = async (req: Request, res: Response): Pr
   }
 
   const songs = await getUserTopTracks(token, 50);
-  const featuresMap = await getAudioFeatures(token, songs.map((s) => s.id));
-
-  const newCreatures = songs.map((s) => createCreatureFromSongWithFeatures(s, featuresMap[s.id]));
+  const newCreatures = songs.map(createCreatureFromTrack);
 
   const existingIds = new Set(user.creatures.map((c) => c.id));
   newCreatures.forEach((c) => {
@@ -179,4 +183,38 @@ export const addUserCreaturesFromSongs = async (req: Request, res: Response): Pr
 
   saveUsers(users);
   res.json(user.creatures);
+};
+
+export const addSingleCreature = async (req: Request, res: Response): Promise<void> => {
+  const spotifyId = (req as any).spotifyId as string;
+  const token = (req as any).spotifyToken as string;
+
+  if (!spotifyId || !token) {
+    res.status(400).json({ error: "Spotify ID or token missing" });
+    return;
+  }
+
+  const users = readUsers();
+  const user = users[spotifyId];
+  if (!user) {
+    res.status(404).json({ error: "User not found" });
+    return;
+  }
+
+  // Fetch more tracks than we have creatures, pick one we don't have yet
+  const songs = await getUserTopTracks(token, 50);
+  const existingIds = new Set(user.creatures.map(c => c.id));
+  const newSong = songs.find(s => !existingIds.has(s.id));
+
+  if (!newSong) {
+    res.status(400).json({ error: "No new songs to generate a creature from" });
+    return;
+  }
+
+  const creature = createCreatureFromTrack(newSong);
+
+  user.creatures.push(creature);
+  saveUsers(users);
+
+  res.json(creature); // returns just the new one
 };
