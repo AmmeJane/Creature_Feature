@@ -1,0 +1,54 @@
+{
+  "creatures": [
+    {
+      "id": "c001",
+      "name": "Gloopus",
+      "size": 2.48,
+      "speed": 7.92,
+      "colour": "green",
+      "state": "Wandering",
+      "age": 0,
+      "genes": { "size": 0.44, "speed": 0.79, "colour": 0.28 }
+    },
+    {
+      "id": "c002",
+      "name": "Snarf",
+      "size": 0.9,
+      "speed": 2.08,
+      "colour": "red",
+      "state": "Sleeping",
+      "age": 0,
+      "genes": { "size": 0.09, "speed": 0.20, "colour": 0.01 }
+    },
+    {
+      "id": "c003",
+      "name": "Zibble",
+      "size": 4.46,
+      "speed": 9.51,
+      "colour": "purple",
+      "state": "Hunting",
+      "age": 0,
+      "genes": { "size": 0.88, "speed": 0.96, "colour": 0.59 }
+    },
+    {
+      "id": "c004",
+      "name": "Flumph",
+      "size": 2.98,
+      "speed": 5.56,
+      "colour": "blue",
+      "state": "Idle",
+      "age": 0,
+      "genes": { "size": 0.55, "speed": 0.56, "colour": 0.16 }
+    },
+    {
+      "id": "c005",
+      "name": "Wumble",
+      "size": 0.5,
+      "speed": 9.9,
+      "colour": "cyan",
+      "state": "Fleeing",
+      "age": 0,
+      "genes": { "size": 0.001, "speed": 0.999, "colour": 0.92 }
+    }
+  ]
+}

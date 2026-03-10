@@ -1,0 +1,59 @@
+{
+  "users": {
+    "ljgj6wvbdb3e55obhhbu2xtou": {
+      "spotifyId": "ljgj6wvbdb3e55obhhbu2xtou",
+      "creatures": [
+        {
+          "id": "2kd2ZeOY6grWJjtjAeveIc",
+          "songId": "2kd2ZeOY6grWJjtjAeveIc",
+          "name": "Freudian Beast",
+          "genes": {
+            "size": 0.61,
+            "speed": 0.802,
+            "colour": 0.727
+          }
+        },
+        {
+          "id": "2J7MImeZUG2bX3jWjAepHN",
+          "songId": "2J7MImeZUG2bX3jWjAepHN",
+          "name": "60.000 ISK Beast",
+          "genes": {
+            "size": 0.838,
+            "speed": 0.634,
+            "colour": 0.493
+          }
+        },
+        {
+          "id": "3rLuup3EQbo8Tr6IBg0Dmc",
+          "songId": "3rLuup3EQbo8Tr6IBg0Dmc",
+          "name": "EVERYDOG HAS ITS DAY Beast",
+          "genes": {
+            "size": 0.6,
+            "speed": 0.496,
+            "colour": 0.955
+          }
+        },
+        {
+          "id": "5JmjXrRYZyJYmXz72IstSS",
+          "songId": "5JmjXrRYZyJYmXz72IstSS",
+          "name": "For God and Country Beast",
+          "genes": {
+            "size": 0.03,
+            "speed": 0.006,
+            "colour": 0.923
+          }
+        },
+        {
+          "id": "1fXBUz1HrQ84gamMN8006V",
+          "songId": "1fXBUz1HrQ84gamMN8006V",
+          "name": "Nobodys Fault / Accept My Own Beast",
+          "genes": {
+            "size": 0.555,
+            "speed": 0.589,
+            "colour": 0.222
+          }
+        }
+      ]
+    }
+  }
+}
