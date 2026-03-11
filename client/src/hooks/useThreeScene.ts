@@ -191,15 +191,10 @@ function initScene(
       group.position.set(c.x ?? 0, groundY, (c.y ?? 0) * 0.5);
       group.scale.setScalar(scale);
 
-      if (c.state === "Moving" || c.state === "Running")
+      if (c.state === "Moving" )
         group.position.y += Math.sin(Date.now() * 0.008 + (c.x ?? 0)) * 0.06;
 
-      const rotSpeed = c.state === "Sleeping" ? 0.002 : c.state === "Running" ? 0.05 : c.state === "Moving" ? 0.02 : 0.006;
-      group.rotation.y += rotSpeed;
 
-      group.rotation.z = c.state === "Sleeping"
-        ? group.rotation.z + (Math.PI / 2.5 - group.rotation.z) * 0.05
-        : group.rotation.z + (0 - group.rotation.z) * 0.05;
 
       const isSelected = c.id === selectedRef.current;
       group.traverse(child => {
