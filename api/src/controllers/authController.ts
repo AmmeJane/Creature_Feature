@@ -21,7 +21,7 @@ export const callback = async (req: Request, res: Response) => {
   try {
     const token = await exchangeCodeForToken(code, process.env.REDIRECT_URI!, process.env.SPOTIFY_CLIENT_ID!, process.env.SPOTIFY_CLIENT_SECRET!);
     setUserToken(token);
-    res.send("Token stored in backend! You can now access /api/top50");
+    res.redirect("http://localhost:5173/");
   } catch (err: any) {
     console.error(err.response?.data || err.message);
     res.status(500).send("Failed to exchange code for token.");
