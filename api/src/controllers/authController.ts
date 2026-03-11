@@ -5,7 +5,8 @@ import { setUserToken } from "../services/tokenStore";
 export const login = (req: Request, res: Response) => {
   const scope = [
     "user-top-read",
-    "user-read-recently-played"
+    "user-read-recently-played",
+    "user-library-read"
   ].join(" ");
 
   const state = Math.random().toString(36).substring(2);

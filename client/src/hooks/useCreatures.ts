@@ -15,6 +15,7 @@ export function useCreatures() {
   const [running,   setRunning]   = useState(true);
   const [tick,      setTick]      = useState(0);
   const [spawning,  setSpawning]  = useState(false);
+  const [newCreature, setNewCreature] = useState<CreatureSnapshot | null>(null);
 
   // ── Load from API ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -60,7 +61,10 @@ export function useCreatures() {
     return () => clearInterval(id);
   }, [running, loading]);
 
-  // ── Spawn ────────────────────────────────────────────────────────────────
+  // ── Pending creature (fetched but not yet added to herd) ────────────────
+  const pendingCreatureRef = useRef<Creature | null>(null);
+
+  // ── Spawn — fetches creature and shows crate, does NOT add to herd yet ──
   const spawnCreature = useCallback(async () => {
     if (spawning) return;
     setSpawning(true);
@@ -70,16 +74,26 @@ export function useCreatures() {
       snap.name      = generateCreatureName(snap.id, category, snap.name);
       typeMapRef.current[snap.id] = snap.type ?? "mammal";
       const c = Creature.fromSnapshot(snap);
-      instancesRef.current.push(c);
-      const next = instancesRef.current.map((c) => c.toSnapshot());
-      snapshotsRef.current = next;
-      setSnapshots(next);
+      pendingCreatureRef.current = c;
+      setNewCreature(c.toSnapshot()); // shows the crate modal
     } catch (err) {
       console.error("Failed to spawn creature:", err);
     } finally {
       setSpawning(false);
     }
   }, [spawning]);
+
+  // ── Confirm — called after crate animation, actually adds to herd ────────
+  const confirmNewCreature = useCallback(() => {
+    const c = pendingCreatureRef.current;
+    if (!c) return;
+    instancesRef.current.push(c);
+    const next = instancesRef.current.map((c) => c.toSnapshot());
+    snapshotsRef.current = next;
+    setSnapshots(next);
+    pendingCreatureRef.current = null;
+    setNewCreature(null);
+  }, []);
 
   // ── Remove ───────────────────────────────────────────────────────────────
   const removeCreature = useCallback((id: string) => {
@@ -107,6 +121,9 @@ export function useCreatures() {
     setRunning,
     tick,
     spawning,
+    newCreature,
+    clearNewCreature: () => setNewCreature(null),
+    confirmNewCreature,
     spawnCreature,
     removeCreature,
     changeCreatureState,

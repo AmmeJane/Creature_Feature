@@ -1,14 +1,24 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { S } from "../constants/colours";
 import { NavPill } from "./ui/primitives";
+import { useState, useEffect } from "react";
+
 
 interface NavBarProps {
   tick: number;
 }
 
+
+
 export function NavBar({ tick }: NavBarProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const [profile, setProfile] = useState<{ name: string; image: string | null } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/user/profile").then(r => r.json()).then(setProfile);
+  }, []);
+
 
   return (
     <div style={{ height:64, background: S.base, borderBottom:`1px solid ${S.border}`, display:"flex", alignItems:"center", padding:"0 24px", gap:16, flexShrink:0, zIndex:10 }}>
@@ -32,10 +42,13 @@ export function NavBar({ tick }: NavBarProps) {
       </div>
 
       <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:10 }}>
-        <span style={{ color: S.muted, fontSize:11, letterSpacing:1 }}>TICK {String(tick).padStart(4, "0")}</span>
-        <div style={{ width:1, height:20, background: S.border }} />
-        <div style={{ width:32, height:32, borderRadius:"50%", background: S.green, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, fontWeight:700, cursor:"pointer" }}>
-          D
+        <div style={{ width:32, height:32, borderRadius:"50%", background: S.green, overflow:"hidden", cursor:"pointer" }}>
+          {profile?.image
+            ? <img src={profile.image} style={{ width:"100%", height:"100%" }} />
+            : <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, fontWeight:700 }}>
+                {profile?.name?.[0]?.toUpperCase() ?? "?"}
+              </div>
+          }
         </div>
       </div>
     </div>

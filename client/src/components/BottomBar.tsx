@@ -336,7 +336,7 @@ export function BottomBar({
       >
         <span style={{ fontSize: 11, color: S.dim }}>{count} creatures</span>
         <span
-          onClick={() => setVolume((v) => (v > 0 ? 0 : 0.7))}
+          onClick={() => setVolume((v) => (v > 0 ? 0 : 0.1))}
           style={{ color: S.muted, fontSize: 14, cursor: "pointer" }}
         >
           {volume === 0 ? "🔇" : "🔊"}
