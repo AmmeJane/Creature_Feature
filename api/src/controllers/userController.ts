@@ -206,7 +206,7 @@ export const getTrackPreview = async (req: Request, res: Response): Promise<void
   const { songId } = req.params;
 
   try {
-    // 1. Get track details from Spotify
+    // track details from Spotify
     const spotifyRes = await axios.get(`https://api.spotify.com/v1/tracks/${songId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -215,7 +215,7 @@ export const getTrackPreview = async (req: Request, res: Response): Promise<void
     const artist = track.artists[0]?.name ?? "";
     const albumArt = track.album?.images[0]?.url ?? null;
 
-    // 2. Search Deezer for preview
+    // look in Deezer for preview
     const deezerRes = await axios.get(`https://api.deezer.com/search`, {
       params: { q: `artist:"${artist}" track:"${name}"`, limit: 1 },
     });

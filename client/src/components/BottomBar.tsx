@@ -41,7 +41,7 @@ export function BottomBar({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(30);
   const [loading, setLoading] = useState(false);
-  const [volume, setVolume] = useState(0.7);
+  const [volume, setVolume] = useState(0.1);
 
   // ── Fetch + play when creature selected ──────────────────────────────────
   useEffect(() => {
