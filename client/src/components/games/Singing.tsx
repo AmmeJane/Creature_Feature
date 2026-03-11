@@ -28,7 +28,7 @@ const DUCK_IMAGES: Record<DuckKey, string> = {
 };
 
 const SONG: [DuckKey, number][] = [
-  ["A", 0],   ["S", 300], ["D", 300], ["A", 300],
+  ["A", 0],   ["S", 100], ["D", 300], ["A", 300],
   ["S", 400], ["D", 200], ["A", 200], ["S", 400],
   ["D", 300], ["A", 300], ["S", 200], ["D", 400],
   ["A", 300], ["A", 200], ["S", 300], ["D", 400],
@@ -344,7 +344,7 @@ export function Singing({ onScore }: MiniGameProps) {
               <NoteColumn notes={laneNotes} />
               <LilyPad />
               {/* Duck */}
-              <div style={{ width:70, height:70, position:"relative", zIndex:4, marginBottom:8,
+              <div style={{ width:110, height:110, position:"relative", zIndex:4, marginBottom:8,
                 animation: ds==="idle" ? "bobbing 2s ease-in-out infinite" : "none",
                 transform: ds==="miss" ? "rotate(-15deg)" : "none",
                 filter: ds==="singing" ? "drop-shadow(0 0 12px rgba(150,220,255,0.9))" : "none",

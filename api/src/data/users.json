@@ -386,6 +386,72 @@
           "speed": 0.7500333333333333,
           "colour": 0.54
         }
+      },
+      {
+        "id": "5oRnhpl1cQN0zxwsV4K2m5",
+        "songId": "5oRnhpl1cQN0zxwsV4K2m5",
+        "name": "god is dead Beast",
+        "type": "mammal",
+        "genes": {
+          "size": 0.41,
+          "speed": 0.8034714285714286,
+          "colour": 0.41
+        }
+      },
+      {
+        "id": "2h7vLf7jv2KsRb7fV77w5H",
+        "songId": "2h7vLf7jv2KsRb7fV77w5H",
+        "name": "crush Beast",
+        "type": "slime",
+        "genes": {
+          "size": 0.63,
+          "speed": 0.7322619047619048,
+          "colour": 0.63
+        }
+      },
+      {
+        "id": "6C2nVSSeXNqfoY8t6tliZ4",
+        "songId": "6C2nVSSeXNqfoY8t6tliZ4",
+        "name": "jeans Beast",
+        "type": "slime",
+        "genes": {
+          "size": 0.68,
+          "speed": 0.5654380952380953,
+          "colour": 0.68
+        }
+      },
+      {
+        "id": "0oGp7mPtGhEc8vnHMx2O7w",
+        "songId": "0oGp7mPtGhEc8vnHMx2O7w",
+        "name": "SANDPAPER Beast",
+        "type": "slime",
+        "genes": {
+          "size": 0.26,
+          "speed": 0.6381857142857144,
+          "colour": 0.26
+        }
+      },
+      {
+        "id": "2sybZ1GJwWBdE4OksFBmaF",
+        "songId": "2sybZ1GJwWBdE4OksFBmaF",
+        "name": "cabin fever (feat. my literal mum) Beast",
+        "type": "mammal",
+        "genes": {
+          "size": 0.28,
+          "speed": 0.5187190476190476,
+          "colour": 0.28
+        }
+      },
+      {
+        "id": "0EypgwiH3kjeT1cImoMX55",
+        "songId": "0EypgwiH3kjeT1cImoMX55",
+        "name": "the car Beast",
+        "type": "aquatic",
+        "genes": {
+          "size": 0.43,
+          "speed": 0.5731761904761905,
+          "colour": 0.43
+        }
       }
     ]
   }
