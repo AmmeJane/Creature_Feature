@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { exchangeCodeForToken } from "../services/spotifyService";
-import { setUserToken } from "../services/tokenStore";
+import { setUserToken, clearUserToken } from "../services/tokenStore";
 
 export const login = (req: Request, res: Response) => {
   const scope = [
@@ -10,7 +10,7 @@ export const login = (req: Request, res: Response) => {
   ].join(" ");
 
   const state = Math.random().toString(36).substring(2);
-  const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.SPOTIFY_CLIENT_ID}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI!)}&state=${state}`;
+  const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.SPOTIFY_CLIENT_ID}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI!)}&state=${state}&show_dialog=true`;
 
   res.redirect(authUrl);
 };
@@ -27,4 +27,9 @@ export const callback = async (req: Request, res: Response) => {
     console.error(err.response?.data || err.message);
     res.status(500).send("Failed to exchange code for token.");
   }
+};
+
+export const logout = (req: Request, res: Response) => {
+  clearUserToken();
+  res.redirect(`http://localhost:3000/auth/login?show_dialog=true`);
 };

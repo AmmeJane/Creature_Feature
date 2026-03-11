@@ -5,3 +5,7 @@ export const setUserToken = (token: string) => {
 };
 
 export const getUserToken = () => userToken;
+
+export const clearUserToken = () => {
+  userToken = null;
+};

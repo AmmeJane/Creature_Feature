@@ -14,6 +14,7 @@ export function NavBar({ tick }: NavBarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<{ name: string; image: string | null } | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/user/profile").then(r => r.json()).then(setProfile);
@@ -42,7 +43,7 @@ export function NavBar({ tick }: NavBarProps) {
       </div>
 
       <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:10 }}>
-        <div style={{ width:32, height:32, borderRadius:"50%", background: S.green, overflow:"hidden", cursor:"pointer" }}>
+        <div style={{ width:32, height:32, borderRadius:"50%", background: S.green, overflow:"hidden", cursor:"pointer" }} onClick={() => setMenuOpen((o) => !o)}>
           {profile?.image
             ? <img src={profile.image} style={{ width:"100%", height:"100%" }} />
             : <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, fontWeight:700 }}>
@@ -50,6 +51,25 @@ export function NavBar({ tick }: NavBarProps) {
               </div>
           }
         </div>
+                {menuOpen && (
+          <div style={{
+            position: "absolute", top: 44, right: 0,
+            background: S.card, borderRadius: 8, padding: "8px 0",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.4)", minWidth: 160, zIndex: 100,
+          }}>
+            <div
+              onClick={() => window.location.href = "http://localhost:3000/auth/logout"}
+              style={{
+                padding: "10px 16px", cursor: "pointer", fontSize: 13,
+                color: S.muted, display: "flex", alignItems: "center", gap: 8,
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = S.white)}
+              onMouseLeave={e => (e.currentTarget.style.color = S.muted)}
+            >
+              Switch Account
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
