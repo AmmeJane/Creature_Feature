@@ -36,7 +36,15 @@ export function Discover() {
     setActiveGame("heardle");
   };
 
-  const handleCollect = async (songId?: string) => {
+  const handleCollect = async () => {
+    const res  = await fetch("/api/user/creatures/add", { method: "POST" });
+    const data = await res.json();
+    setActiveGame(null);
+    setHeardleSong(null);
+    setCrateCreature({ creature: data, creatureType: data.type });
+  };
+
+  const handleHeardleCollect = async (songId?: string) => {
   const url  = songId ? "/api/user/creatures/add-by-song" : "/api/user/creatures/add";
   const opts = songId
       ? { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ songId }) }
@@ -76,14 +84,14 @@ export function Discover() {
   }
 
   if (activeGame === "heardle" && heardleSong) {
-    return gameShell("🎵 Creature Heardle",
+    return gameShell("🕊 Creature Heardle",
       <Heardle
         songId={heardleSong.songId}
         songName={heardleSong.name}
         previewUrl={heardleSong.previewUrl}
         creature={heardleSong.creature}
         creatureType={heardleSong.creatureType}
-        onCollect={handleCollect}
+        onCollect={handleHeardleCollect}
         onGiveUp={() => { setActiveGame(null); setHeardleSong(null); }}
         onScore={() => {}}
       />

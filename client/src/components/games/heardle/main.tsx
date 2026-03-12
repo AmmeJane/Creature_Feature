@@ -157,7 +157,7 @@ export function Heardle({ songId, songName, previewUrl, creature, creatureType, 
   return (
     <div style={{ width:"100%", height:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", background:S.black, padding:24, boxSizing:"border-box" }}>
 
-      <div style={{ fontSize:11, fontWeight:700, color:S.muted, letterSpacing:2, marginBottom:24 }}>CREATURE HEARDLE</div>
+      <div style={{ fontSize:11, fontWeight:700, color:S.muted, letterSpacing:2, marginBottom:24 }}>Creature Heardle</div>
 
       {/* Attempt bars */}
       <div style={{ display:"flex", gap:4, marginBottom:32 }}>

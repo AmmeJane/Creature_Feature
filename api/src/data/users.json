@@ -278,5 +278,226 @@
       "4Fo5QwbxjpNKW191lHQhnm",
       "0gHahJyFliL12kxsqiAF41"
     ]
+  },
+  "314w22badv7jglgw4vtpvybemxyq": {
+    "spotifyId": "314w22badv7jglgw4vtpvybemxyq",
+    "creatures": [
+      {
+        "id": "1tTV7mRV9uB2Nr9VcwkuFX",
+        "songId": "1tTV7mRV9uB2Nr9VcwkuFX",
+        "name": "Greek Tragedy Beast",
+        "type": "mammal",
+        "genes": {
+          "size": 0.59,
+          "speed": 0.4306809523809524,
+          "colour": 0.59
+        }
+      },
+      {
+        "id": "6YvqWjhGD8mB5QXcbcUKtx",
+        "songId": "6YvqWjhGD8mB5QXcbcUKtx",
+        "name": "Love Story (Taylor’s Version) Beast",
+        "type": "aquatic",
+        "genes": {
+          "size": 0.76,
+          "speed": 0.3058761904761905,
+          "colour": 0.76
+        }
+      },
+      {
+        "id": "3CRDbSIZ4r5MsZ0YwxuEkn",
+        "songId": "3CRDbSIZ4r5MsZ0YwxuEkn",
+        "name": "Stressed Out Beast",
+        "type": "slime",
+        "genes": {
+          "size": 0.87,
+          "speed": 0.4650809523809524,
+          "colour": 0.87
+        }
+      },
+      {
+        "id": "0b6xZk9f96N77BfmYWnQNC",
+        "songId": "0b6xZk9f96N77BfmYWnQNC",
+        "name": "Mama's Boy Beast",
+        "type": "aquatic",
+        "genes": {
+          "size": 0.74,
+          "speed": 0.6870428571428571,
+          "colour": 0.74
+        }
+      },
+      {
+        "id": "745JbQYxoYIegHzHTUxETp",
+        "songId": "745JbQYxoYIegHzHTUxETp",
+        "name": "Everywhere, Everything (with Gracie Abrams) Beast",
+        "type": "mammal",
+        "genes": {
+          "size": 0.8,
+          "speed": 0.20158095238095242,
+          "colour": 0.8
+        }
+      },
+      {
+        "id": "5YHhxbtAAkOiIXqNBfYjZU",
+        "songId": "5YHhxbtAAkOiIXqNBfYjZU",
+        "name": "Moving to New York Beast",
+        "type": "aquatic",
+        "genes": {
+          "size": 0.44,
+          "speed": 0.4259047619047619,
+          "colour": 0.44
+        }
+      },
+      {
+        "id": "2262bWmqomIaJXwCRHr13j",
+        "songId": "2262bWmqomIaJXwCRHr13j",
+        "name": "Sailor Song Beast",
+        "type": "slime",
+        "genes": {
+          "size": 0.87,
+          "speed": 0.41915238095238094,
+          "colour": 0.87
+        }
+      },
+      {
+        "id": "0mflMxspEfB0VbI1kyLiAv",
+        "songId": "0mflMxspEfB0VbI1kyLiAv",
+        "name": "Stick Season Beast",
+        "type": "mammal",
+        "genes": {
+          "size": 0.85,
+          "speed": 0.5602571428571428,
+          "colour": 0.85
+        }
+      },
+      {
+        "id": "1F8DnzA2caiBCxznBnCyHk",
+        "songId": "1F8DnzA2caiBCxznBnCyHk",
+        "name": "For The Plot Beast",
+        "type": "mammal",
+        "genes": {
+          "size": 0.4,
+          "speed": 0.4904761904761905,
+          "colour": 0.4
+        }
+      },
+      {
+        "id": "2cTVoD2dYSjsxHbtvKsAHq",
+        "songId": "2cTVoD2dYSjsxHbtvKsAHq",
+        "name": "Normalcy Beast",
+        "type": "slime",
+        "genes": {
+          "size": 0.49,
+          "speed": 0,
+          "colour": 0.49
+        }
+      }
+    ],
+    "songPool": [
+      "0vf2eBw2inhl8y61cYQMv2",
+      "3sW3oSbzsfecv9XoUdGs7h",
+      "7bLFtDcAmwVD3pw7zTUfmy",
+      "4nHJcUtNSUVjXRnjdP29Bk",
+      "2j6QH8Q3q3TFYHpOQvExiE",
+      "1ElGmhauttS9p7LwmHG9uM",
+      "1e0vsza0hIVYv9Mkz542qn",
+      "5k1pZ19vT32fzCSeqRL26v",
+      "0NwGC0v03ysCYINtg6ns58",
+      "0ZAiqymvbQUZAh9y6ZT3Rm",
+      "26ZX2JrAb8AFbr8FFfAsO7",
+      "5vPQOKhAhgV7dAIUSdagE2",
+      "003vvx7Niy0yvhvHt4a68B",
+      "6qGVKjUodwfWPg4ZzZiA6S",
+      "3x8ZN5mCjRNuHkCgqRAaob",
+      "6n4iuOHAOIu5LtbXBKrD0f",
+      "2U8NXPTXZWG2O0ye2sYRiH",
+      "5UXJzLFdBn6u9FJTCnoHrH",
+      "456WNXWhDwYOSf5SpTuqxd",
+      "3ucQ4DLpH8RgyzqYBMnDpj",
+      "4jbmgIyjGoXjY01XxatOx6",
+      "3dYD57lRAUcMHufyqn9GcI",
+      "6JY1IdkZGeIcPegKxjSKeb",
+      "3WALaE7UdNXx8VJ4lpWCK8",
+      "7nDFTHHwfe32a8qdp9XqPy",
+      "2ORD5RHyZI9LGibgqcwr3v",
+      "1cbmLiSBdxRHe7Myj0rIy6",
+      "6iey5kChncxwOgkf6z3faZ",
+      "6RTDyHa1vdrRLUNvFOH4Ry",
+      "14QX1ckbDIhqetvu5VZ3cP",
+      "0caJ2wkqp4UmXBwdR2JvB5",
+      "2x3mwb96B6TquRqMtbxUE1",
+      "7EkWXAI1wn8Ii883ecd9xr",
+      "35dSYPOnoGvis2ZOUe4xDv",
+      "1TsihOAlag5W9s8uBksba0",
+      "7wKXsPI6VOIVLRBfrlgaJo",
+      "1tF1J2fK1F9iQ8UUD1Iai5",
+      "4PUaMFi7oEiOeOu55JasTY",
+      "0NlGoUyOJSuSHmngoibVAs",
+      "1kuGVB7EU95pJObxwvfwKS",
+      "7mDgx8aONzvoKw0Ckx3wF7",
+      "1MgV7FIyNxIG7WzMRJV5HC",
+      "50c2BXvhlhUl2cl5LVADtq",
+      "37GzFUHxA4IWlNnaXnsfdR",
+      "4ST1nbdDie0CFmDd9mINwO",
+      "6REPF37KwcWMqyk6XCuB7p",
+      "6suYoN4gFkanqOBn5yRnJC",
+      "7qjCmoM2kKXAt2QIPhLVIg",
+      "1o9JJeBKlVxQ9O4j5Qd4Vh",
+      "7ne4VBA60CxGM75vw0EYad",
+      "4O2rRsoSPb5aN7N3tG6Y3v",
+      "4pvb0WLRcMtbPGmtejJJ6y",
+      "7GjxQQQD9jYCF2Eeh2HHcT",
+      "776SL9uIMcy2nc0N9pPsLH",
+      "1NTzmzdyvIWgu1aYTGedtJ",
+      "0Mf6WhWLfOpzOxacvbcboj",
+      "4tMzIAFTFdqGBQLdfbPces",
+      "2oRNyf4qlAzGz6LljMcDJp",
+      "6Axf4FwBQvgcKzRwfm458N",
+      "5S4aYQAJOwJMAamANWlICO",
+      "46sYl0o21xmXFK1a3y94Ha",
+      "1KNa1pe0JmwAhqYHa0E8S9",
+      "31TXxq8gfgYyrYClnYY48m",
+      "0VE4kBnHJUgtMf0dy6DRmW",
+      "1BlQWQgGP84r4GYUVty4Ar",
+      "1EoThnDm6kQfB2idIfR30n",
+      "6me7F0aaZjwDo6RJ5MrfBD",
+      "2Fs18NaCDuluPG1DHGw1XG",
+      "5mTnxQyVQlWPlfkZcThZz3",
+      "5jrdCoLpJSvHHorevXBATy",
+      "6JFEQfSWw4hB8p5dFtpcua",
+      "1R0a2iXumgCiFb7HEZ7gUE",
+      "1eEEhGB3GxyVS8D8s3VhKd",
+      "64IqJyG22FsiuEE0j3yfMb",
+      "7ByxizhA4GgEf7Sxomxhze",
+      "44FrsRwZEDZHgLbbObA8Z4",
+      "5yJaXWIErrrsjQ3J0eR5aK",
+      "3PaeUkXlQSmYKlR30fbdzU",
+      "55MjAJmZtuJlvZHgxvivQH",
+      "0WSa1sucoNRcEeULlZVQXj",
+      "2Co0IjcLTSHMtodwD4gzfg",
+      "5W72gQmFrUn009vq9NIHAm",
+      "0ZfByLXCeKchuj7zi1CJ0S",
+      "3gjRRs7gmh3Euynu1cau1d",
+      "3yn01PcU95PTbiZ3xvop2j",
+      "4OtIlddVzUj3p2q28uCvjl",
+      "7fJALFBexDXzu0QdatF5O4",
+      "21IYMdzTrzSe191Cy5eMap",
+      "3Vevii7qKqrmW8CcyzBHDl",
+      "6uhvuMDb93ANzVxNABDgf1",
+      "0o4hxw4uTsKNId65cK6NBG",
+      "6BrMEbPSSj55nQhkgf6DnE",
+      "5LfgzPHvka22FdRAxOme6m",
+      "53iuhJlwXhSER5J2IYYv1W",
+      "5XD08ZPXrYSnc5xRPQ0gu4",
+      "2RlgNHKcydI9sayD2Df2xp",
+      "1BxfuPKGuaTgP7aM0Bbdwr",
+      "4hjuUelurEBKlqpJPJ77Iw",
+      "4CeeEOM32jQcH3eN9Q2dGj",
+      "2x1jP9BexWtOKudvuUHbaD",
+      "0EF1EE8zusg3Y869e56JFd",
+      "3bnVBN67NBEzedqQuWrpP4",
+      "17cia5k4BpGVlyEfqrFH50",
+      "1Fid2jjqsHViMX6xNH70hE"
+    ]
   }
 }
