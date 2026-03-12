@@ -37,8 +37,8 @@ export function NavBar({ tick }: NavBarProps) {
 
       <div style={{ flex:1, maxWidth:360, margin:"0 16px" }}>
         <div style={{ background: S.elevated, borderRadius:24, padding:"8px 16px", display:"flex", alignItems:"center", gap:8, border:`1px solid ${S.border}` }}>
-          <span style={{ color: S.muted, fontSize:14 }}>🔍</span>
-          <span style={{ color: S.dim, fontSize:13 }}>Search creatures...</span>
+          <span style={{ color: S.muted, fontSize:14 }}></span>
+          <span style={{ color: S.dim, fontSize:13 }}>🔍︎ Search creatures...</span>
         </div>
       </div>
 

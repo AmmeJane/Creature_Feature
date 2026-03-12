@@ -43,7 +43,7 @@ export function BottomBar({
   const [loading, setLoading] = useState(false);
   const [volume, setVolume] = useState(0.1);
 
-  // ── Fetch + play when creature selected ──────────────────────────────────
+  // Fetch + play when creature selected 
   useEffect(() => {
     if (!sel) {
       audioRef.current?.pause();
@@ -246,7 +246,7 @@ export function BottomBar({
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <ControlBtn>⇄</ControlBtn>
+         
           <ControlBtn>⏮</ControlBtn>
           <button
             onClick={sel && track?.previewUrl ? toggleAudio : onToggleRun}
@@ -268,10 +268,9 @@ export function BottomBar({
               transition: "opacity 0.15s",
             }}
           >
-            {loading ? "⏳" : playing ? "⏸" : "▶"}
+            {loading ? "⏱" : playing ? "⏸" : "▶"}
           </button>
           <ControlBtn>⏭</ControlBtn>
-          <ControlBtn>↺</ControlBtn>
         </div>
 
         <div

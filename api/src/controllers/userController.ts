@@ -9,7 +9,7 @@ import { User } from "../types/UserTypes";
 
 const DATA_FILE = path.join(__dirname, "../data/users.json");
 
-const STARTING_HERD_SIZE = 10; // creatures given on first load
+const STARTING_HERD_SIZE = 2; // creatures given on first load
 
 // ----- FILE I/O -----
 function readUsers(): Record<string, User> {
@@ -306,4 +306,63 @@ export const getSpotifyProfile = async (req: Request, res: Response): Promise<vo
     headers: { Authorization: `Bearer ${token}` },
   });
   res.json({ name: res2.data.display_name, image: res2.data.images?.[0]?.url ?? null });
+};
+
+export const getNextSong = async (req: Request, res: Response): Promise<void> => {
+  const spotifyId = (req as any).spotifyId as string;
+  const token     = (req as any).spotifyToken as string;
+
+  if (!spotifyId || !token) {
+    res.status(400).json({ error: "Spotify ID or token missing" });
+    return;
+  }
+
+  const users = readUsers();
+  const user  = users[spotifyId];
+  if (!user) {
+    res.status(404).json({ error: "User not found" });
+    return;
+  }
+
+  const pool: string[] = user.songPool ?? [];
+  if (pool.length === 0) {
+    res.status(400).json({ error: "Song pool is empty" });
+    return;
+  }
+
+  // Loop through pool until we find a song with a Deezer preview
+  for (let i = 0; i < pool.length; i++) {
+    const candidateId = pool[i];
+    try {
+      const trackRes = await axios.get(`https://api.spotify.com/v1/tracks/${candidateId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const track  = trackRes.data;
+      const name   = track.name as string;
+      const artist = track.artists[0]?.name ?? "";
+
+      const deezerRes = await axios.get(`https://api.deezer.com/search`, {
+        params: { q: `artist:"${artist}" track:"${name}"`, limit: 1 },
+      });
+      const deezerTrack = deezerRes.data?.data?.[0];
+      const previewUrl  = deezerTrack?.preview ?? null;
+
+      if (!previewUrl) {
+        console.log(`No preview for "${name}", skipping…`);
+        continue;
+      }
+
+      // Move this song to front of pool so addSingleCreature uses it next
+      user.songPool = [candidateId, ...pool.filter((_, idx) => idx !== i)];
+      saveUsers(users);
+
+      res.json({ songId: candidateId, name, artist, previewUrl });
+      return;
+    } catch (err: any) {
+      console.error("getNextSong error:", err.response?.data || err.message);
+      continue;
+    }
+  }
+
+  res.status(404).json({ error: "No songs with previews found in pool" });
 };

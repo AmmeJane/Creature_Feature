@@ -23,10 +23,8 @@ export const S = {
 };
 
 export const STATE_COLOUR: Record<string, string> = {
-  Idle:     S.dim,
+  Idle:     S.white,
   Moving:   S.green,
-  Sleeping: "#509BF5",
-  Running:  "#F59B23",
 };
 
-export const STATES = ["Idle", "Moving", "Sleeping", "Running"] as const;
+export const STATES = [] as const;

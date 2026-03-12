@@ -3,6 +3,7 @@ import { S, STATE_COLOUR } from "../constants/colours";
 import { FilterPill } from "./ui/primitives";
 import { CreaturePreview } from "../components/creatures/CreaturePreview";
 import { geneToColourHex } from "../components/creatures/ProceduralCreature";
+import { useState } from "react";
 
 interface SidebarProps {
   snapshots:   CreatureSnapshot[];
@@ -16,27 +17,26 @@ interface SidebarProps {
 }
 
 export function Sidebar({ snapshots, selected, hoveredId, typeMapRef, spawning, onSelect, onHover, onSpawn }: SidebarProps) {
+  const [filter, setFilter] = useState<"All" | "Moving" | "Idle">("All");
+
+  const filtered = filter === "All"
+    ? snapshots
+    : snapshots.filter(c => c.state === filter);
   return (
     <div style={{ width:280, background: S.base, display:"flex", flexDirection:"column", flexShrink:0, borderRight:`1px solid ${S.border}` }}>
 
       <div style={{ padding:"20px 16px 8px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <span style={{ fontSize:13, fontWeight:700, color: S.muted, letterSpacing:0.5 }}>YOUR HERD</span>
-        <button
-          onClick={onSpawn}
-          disabled={spawning}
-          style={{ background: spawning ? S.dim : S.green, border:"none", borderRadius:"50%", width:28, height:28, cursor: spawning ? "default" : "pointer", color: S.black, fontSize:18, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", lineHeight:1, transition:"background 0.2s" }}>
-          {spawning ? "…" : "+"}
-        </button>
       </div>
 
       <div style={{ padding:"4px 16px 12px", display:"flex", gap:6 }}>
-        <FilterPill active>All</FilterPill>
-        <FilterPill>Moving</FilterPill>
-        <FilterPill>Sleeping</FilterPill>
+        <FilterPill active={filter === "All"}      onClick={() => setFilter("All")}>All</FilterPill>
+        <FilterPill active={filter === "Moving"}   onClick={() => setFilter("Moving")}>Moving</FilterPill>
+        <FilterPill active={filter === "Idle"} onClick={() => setFilter("Idle")}>Idle</FilterPill>
       </div>
 
       <div style={{ flex:1, overflowY:"auto", padding:"0 8px" }}>
-        {snapshots.map(c => {
+        {filtered.map(c => {
           const type     = typeMapRef.current[c.id] ?? "mammal";
           const colour   = geneToColourHex(c.genes.colour);
           const isActive = selected === c.id;

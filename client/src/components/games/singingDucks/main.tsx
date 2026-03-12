@@ -1,218 +1,59 @@
 // games/singingDucks/Singing.tsx
-import type { MiniGameProps } from "../../../types/Game";
+import type { MiniGameProps } from "../types";
 import { DUCK_KEYS } from "./types";
 import { useSingingGame } from "./hooks";
 import { DuckLane, Scoreboard, OverlayScreen } from "./components";
 
-export function Singing({ onScore }: MiniGameProps) {
-  const game = useSingingGame(onScore);
+interface SingingProps extends MiniGameProps {
+  songId:    string;
+  songName?: string;
+  onCollect: () => void;
+}
+
+export function Singing({ songId, songName, onScore, onCollect }: SingingProps) {
+  const game = useSingingGame(songId, onScore);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        minHeight: 520,
-        position: "relative",
-        overflow: "hidden",
-        userSelect: "none",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        fontFamily: "'Press Start 2P','Courier New',monospace",
-      }}
-    >
-      <audio
-        ref={game.audioRef}
-        src="/audio/vivaldi-winter.mp3"
-        loop={false}
-        preload="auto"
-      />
+    <div style={{ width:"100%", height:"100%", minHeight:520, position:"relative", overflow:"hidden", userSelect:"none", display:"flex", flexDirection:"column", alignItems:"center", fontFamily:"'Press Start 2P','Courier New',monospace" }}>
 
-      {/* Winter background */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(180deg, #0a1628 0%, #1a3a6e 30%, #2a5a9e 55%, #3a7acc 65%, #4a9ad8 100%)",
-          zIndex: 0,
-        }}
-      />
+{/* Base black */}
+      <div style={{ position:"absolute", inset:0, zIndex:0, background:"#121212" }}/>
 
-      {/* Snowflakes */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          pointerEvents: "none",
-          overflow: "hidden",
-        }}
-      >
-        {Array.from({ length: 30 }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left: `${(i * 37) % 100}%`,
-              top: `${(i * 23) % 100}%`,
-              width: 4 + (i % 3) * 3,
-              height: 4 + (i % 3) * 3,
-              borderRadius: "50%",
-              background: "rgba(255,255,255,0.8)",
-              animation: `snowfall ${4 + (i % 6)}s linear ${i % 5}s infinite`,
-            }}
-          />
-        ))}
-      </div>
+      {/* Green ambient bloom — top-left, Spotify album-art colour bleed */}
+      <div style={{
+        position:"absolute", zIndex:0,
+        top:-120, left:-80,
+        width:500, height:500,
+        borderRadius:"50%",
+        pointerEvents:"none",
+        background:"radial-gradient(circle, rgba(29,185,84,0.20) 0%, transparent 68%)",
+      }}/>
 
-      {/* Frozen pond */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "45%",
-          background:
-            "linear-gradient(180deg,#6ab8d4 0%,#4a8faa 40%,#2a6080 100%)",
-          zIndex: 2,
-        }}
-      >
-        <svg
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            opacity: 0.3,
-          }}
-          viewBox="0 0 400 200"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M50,20 L80,60 L120,40 L160,80"
-            stroke="white"
-            strokeWidth="1"
-            fill="none"
-          />
-          <path
-            d="M200,10 L220,50 L260,30 L300,70"
-            stroke="white"
-            strokeWidth="1"
-            fill="none"
-          />
-          <path
-            d="M300,40 L330,80 L360,50"
-            stroke="white"
-            strokeWidth="1"
-            fill="none"
-          />
-          <ellipse
-            cx="150"
-            cy="100"
-            rx="60"
-            ry="20"
-            stroke="white"
-            strokeWidth="1"
-            fill="rgba(255,255,255,0.1)"
-          />
-          <ellipse
-            cx="280"
-            cy="120"
-            rx="45"
-            ry="15"
-            stroke="white"
-            strokeWidth="1"
-            fill="rgba(255,255,255,0.1)"
-          />
-        </svg>
-      </div>
+      {/* Softer green bloom — top-right */}
+      <div style={{
+        position:"absolute", zIndex:0,
+        top:-60, right:-60,
+        width:360, height:360,
+        borderRadius:"50%",
+        pointerEvents:"none",
+        background:"radial-gradient(circle, rgba(30,215,96,0.11) 0%, transparent 68%)",
+      }}/>
 
-      {/* Snowy ground */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "43%",
-          left: 0,
-          right: 0,
-          height: 18,
-          background: "white",
-          zIndex: 3,
-          borderRadius: "50% 50% 0 0",
-        }}
-      />
+      {/* Bottom scrim — the Spotify "now playing" dark-to-black vignette */}
+      <div style={{
+        position:"absolute", inset:0, zIndex:0,
+        pointerEvents:"none",
+        background:"linear-gradient(to bottom, transparent 25%, rgba(0,0,0,0.88) 100%)",
+      }}/>
 
-      {/* Snowy trees */}
-      {[
-        [-2, 18],
-        [94, 16],
-      ].map(([x, y], i) => (
-        <div
-          key={i}
-          style={{
-            position: "absolute",
-            left: `${x}%`,
-            top: `${y}%`,
-            zIndex: 3,
-          }}
-        >
-          <div
-            style={{
-              width: 0,
-              height: 0,
-              borderLeft: "30px solid transparent",
-              borderRight: "30px solid transparent",
-              borderBottom: "55px solid #2d5a27",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: 0,
-              height: 0,
-              borderLeft: "30px solid transparent",
-              borderRight: "30px solid transparent",
-              borderBottom: "55px solid rgba(255,255,255,0.4)",
-            }}
-          />
-          <div
-            style={{
-              width: 0,
-              height: 0,
-              borderLeft: "22px solid transparent",
-              borderRight: "22px solid transparent",
-              borderBottom: "42px solid #3a7a35",
-              marginTop: -22,
-              marginLeft: 8,
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 8,
-              width: 0,
-              height: 0,
-              borderLeft: "22px solid transparent",
-              borderRight: "22px solid transparent",
-              borderBottom: "42px solid rgba(255,255,255,0.35)",
-              marginTop: -22,
-            }}
-          />
-          <div
-            style={{
-              width: 14,
-              height: 20,
-              background: "#5a3010",
-              margin: "0 auto",
-            }}
-          />
-        </div>
-      ))}
+      {/* Hairline separator — faint green shelf divider between HUD and stage */}
+      <div style={{
+        position:"absolute", zIndex:0,
+        left:"5%", right:"5%", top:"48%",
+        height:1,
+        pointerEvents:"none",
+        background:"linear-gradient(to right, transparent, rgba(29,185,84,0.12), transparent)",
+      }}/>
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -223,29 +64,16 @@ export function Singing({ onScore }: MiniGameProps) {
         @keyframes snowfall    { 0%{transform:translateY(-10px) rotate(0deg);opacity:0.8} 100%{transform:translateY(100vh) rotate(360deg);opacity:0} }
       `}</style>
 
-      <Scoreboard score={game.score} combo={game.combo} />
+      <Scoreboard score={game.score} combo={game.combo} songName={songName} />
 
       {/* Duck lanes */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "45%",
-          zIndex: 4,
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "flex-end",
-          padding: "0 8%",
-        }}
-      >
-        {DUCK_KEYS.map((key) => (
+      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:"45%", zIndex:4, display:"flex", justifyContent:"space-around", alignItems:"flex-end", padding:"0 8%" }}>
+        {DUCK_KEYS.map(key => (
           <DuckLane
             key={key}
             duckKey={key}
             duckState={game.duckStates[key]}
-            notes={game.activeNotes.filter((n) => n.duckKey === key && !n.hit)}
+            notes={game.activeNotes.filter(n => n.duckKey === key && !n.hit)}
             onPress={game.handleKey}
           />
         ))}
@@ -253,31 +81,21 @@ export function Singing({ onScore }: MiniGameProps) {
 
       {/* Feedback */}
       {game.feedback && (
-        <div
-          key={game.feedback.id}
-          style={{
-            position: "absolute",
-            top: "28%",
-            left: "50%",
-            fontSize: 14,
-            color: game.feedback.colour,
-            textShadow: "2px 2px 0 #000",
-            zIndex: 20,
-            pointerEvents: "none",
-            animation: "feedbackPop 0.7s ease-out forwards",
-            whiteSpace: "nowrap",
-          }}
-        >
+        <div key={game.feedback.id} style={{ position:"absolute", top:"28%", left:"50%", fontSize:14, color:game.feedback.colour, textShadow:"2px 2px 0 #000", zIndex:20, pointerEvents:"none", animation:"feedbackPop 0.7s ease-out forwards", whiteSpace:"nowrap" }}>
           {game.feedback.text}
         </div>
       )}
 
-      {game.gameState !== "playing" && (
+      {game.phase !== "playing" && (
         <OverlayScreen
-          gameState={game.gameState}
+          phase={game.phase}
+          loadError={game.loadError}
+          songName={songName}
           score={game.score}
           maxCombo={game.maxCombo}
           onStart={game.startGame}
+          maxPossibleScore={game.maxPossibleScore}
+          onCollect={onCollect}
         />
       )}
     </div>
@@ -285,10 +103,10 @@ export function Singing({ onScore }: MiniGameProps) {
 }
 
 export const singingMeta = {
-  id: "singing-ducks",
-  title: "SINGING DUCKS",
-  description: "Hit notes to Vivaldi Winter!",
-  emoji: "🦆",
-  controls: "A / S / D keys",
-  component: Singing,
+  id:          "singing-ducks",
+  title:       "Singing Ducks",
+  description: "Hit notes to the beat!",
+  emoji:       "𓅯",
+  controls:    "A / S / D keys",
+  component:   Singing,
 };

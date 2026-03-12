@@ -8,9 +8,9 @@ export function NavPill({ children, active, onClick }: { children: React.ReactNo
   );
 }
 
-export function FilterPill({ children, active }: { children: React.ReactNode; active?: boolean }) {
+export function FilterPill({ children, active, onClick }: { children: React.ReactNode; active?: boolean; onClick?: () => void }) {
   return (
-    <button style={{ background: active ? S.white : S.subtle, border:"none", borderRadius:12, padding:"4px 12px", color: active ? S.black : S.white, fontSize:11, fontWeight:600, cursor:"pointer" }}>
+    <button onClick={onClick} style={{ background: active ? S.white : S.subtle, border:"none", borderRadius:12, padding:"4px 12px", color: active ? S.black : S.white, fontSize:11, fontWeight:600, cursor:"pointer" }}>
       {children}
     </button>
   );

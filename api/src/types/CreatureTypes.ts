@@ -1,5 +1,5 @@
 export type CreatureColour = "red" | "blue" | "green" | "yellow" | "purple" | "orange" | "cyan";
-export type CreatureState = "Idle" | "Moving" | "Sleeping" | "Running";
+export type CreatureState = "Idle" | "Moving" ;
 
 export interface CreatureSnapshot {
   id: string;

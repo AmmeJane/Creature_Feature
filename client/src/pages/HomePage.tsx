@@ -87,8 +87,8 @@ export function Home() {
           <div style={{ position:"absolute", inset:0, pointerEvents:"none", zIndex:2 }}>
             {sel && (() => {
               // Map creature world pos to screen percent (approximate)
-              const px = 50 + ((sel.x ?? 0) / 14) * 38;
-              const py = 48 - ((sel.y ?? 0) / 14) * 20;
+              const px = 50 + ((sel.x ?? 0) / 12) * 30;
+              const py = 52 - ((sel.y ?? 0) / 12) * 12;
               return (
                 <div key={sel.id} style={{ position:"absolute", left:`${px}%`, top:`${py}%`, transform:"translate(-50%, -180%)", pointerEvents:"none" }}>
                   <div style={{ fontSize:11, fontWeight:700, color: S.white, background: `${selColour}dd`, padding:"4px 10px", borderRadius:12, border:`1px solid ${selColour}`, backdropFilter:"blur(6px)", whiteSpace:"nowrap", boxShadow:`0 0 16px ${selColour}88`, letterSpacing:0.3 }}>

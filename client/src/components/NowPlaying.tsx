@@ -31,7 +31,7 @@ export function NowPlaying({ sel, selType, onClose, onRemove, onChangeState }: N
         </div>
 
         {/* 3D preview — capped so it never takes too much space */}
-        <div style={{ margin:"12px 16px", borderRadius:8, background:`linear-gradient(135deg, ${colour}33, ${colour}08)`, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center", maxHeight:220, aspectRatio:"1", boxShadow:`0 8px 32px ${colour}44` }}>
+        <div style={{ margin:"12px 20px", borderRadius:8, background:`linear-gradient(135deg, ${colour}33, ${colour}08)`, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center", height:220, width:"calc(100% - 40px)", boxShadow:`0 8px 32px ${colour}44` }}>
           <CreaturePreview
             creatureType={selType}
             colour={colour}
@@ -71,20 +71,10 @@ export function NowPlaying({ sel, selType, onClose, onRemove, onChangeState }: N
           <StatCard label="COLOUR" value={colour}    color={colour} isText />
         </div>
 
-        {/* State controls */}
-        <div style={{ padding:"0 16px 12px" }}>
-          <div style={{ fontSize:10, fontWeight:700, color: S.muted, letterSpacing:1, marginBottom:8 }}>CONTROL</div>
-          <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
-            {STATES.map(s => (
-              <button key={s} onClick={() => onChangeState(sel.id, s)} style={{ fontSize:10, fontWeight:600, padding:"5px 12px", background: sel.state === s ? STATE_COLOUR[s] : "transparent", border:`1px solid ${STATE_COLOUR[s]}`, color: sel.state === s ? S.black : STATE_COLOUR[s], borderRadius:12, cursor:"pointer", letterSpacing:0.5, transition:"all 0.15s" }}>
-                {s}
-              </button>
-            ))}
-          </div>
-        </div>
+
 
         {/* Remove */}
-        <div style={{ padding:"0 16px 16px" }}>
+        <div style={{ padding:"30px 16px 16px" }}>
           <button
             onClick={() => onRemove(sel.id)}
             style={{ width:"100%", background:"transparent", border:`1px solid ${S.border}`, color: S.muted, borderRadius:4, padding:"8px", cursor:"pointer", fontSize:12, fontWeight:600, transition:"all 0.15s" }}
