@@ -1,4 +1,4 @@
-// games/singingDucks/Singing.tsx
+
 import type { MiniGameProps } from "../types";
 import { DUCK_KEYS } from "./types";
 import { useSingingGame } from "./hooks";

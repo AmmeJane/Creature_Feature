@@ -366,3 +366,110 @@ export const getNextSong = async (req: Request, res: Response): Promise<void> =>
 
   res.status(404).json({ error: "No songs with previews found in pool" });
 };
+
+export const getHeardleSong = async (req: Request, res: Response): Promise<void> => {
+  const spotifyId = (req as any).spotifyId as string;
+  const token     = (req as any).spotifyToken as string;
+  if (!spotifyId || !token) {
+    res.status(400).json({ error: "Spotify ID or token missing" });
+    return;
+  }
+
+  const users = readUsers();
+  const user  = users[spotifyId];
+  if (!user) {
+    res.status(404).json({ error: "User not found" });
+    return;
+  }
+
+  // Pool = all creatures the user has, in random order each time
+  const creatures = user.creatures ?? [];
+  if (creatures.length === 0) {
+    res.status(400).json({ error: "No creatures to guess from" });
+    return;
+  }
+
+  // Shuffle and find one with a Deezer preview
+  const shuffled = [...creatures].sort(() => Math.random() - 0.5);
+
+  for (const creature of shuffled) {
+    try {
+      const trackRes = await axios.get(`https://api.spotify.com/v1/tracks/${creature.songId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const track  = trackRes.data;
+      const name   = track.name as string;
+      const artist = track.artists[0]?.name ?? "";
+
+      const deezerRes = await axios.get(`https://api.deezer.com/search`, {
+        params: { q: `artist:"${artist}" track:"${name}"`, limit: 1 },
+      });
+      const deezerTrack = deezerRes.data?.data?.[0];
+      const previewUrl  = deezerTrack?.preview ?? null;
+      if (!previewUrl) continue;
+
+      res.json({
+        songId:       creature.songId,
+        name,
+        artist,
+        previewUrl,
+        creature,
+        creatureType: creature.type,
+      });
+      return;
+    } catch (err: any) {
+      console.error("getHeardleSong error:", err.response?.data || err.message);
+      continue;
+    }
+  }
+
+  res.status(404).json({ error: "No songs with previews found" });
+};
+
+export const addCreatureBySpotifyId = async (req: Request, res: Response): Promise<void> => {
+  const spotifyId = (req as any).spotifyId as string;
+  const token     = (req as any).spotifyToken as string;
+  const { songId } = req.body;
+
+  if (!spotifyId || !token) {
+    res.status(400).json({ error: "Spotify ID or token missing" });
+    return;
+  }
+  if (!songId) {
+    res.status(400).json({ error: "songId missing from body" });
+    return;
+  }
+
+  const users = readUsers();
+  const user  = users[spotifyId];
+  if (!user) {
+    res.status(404).json({ error: "User not found" });
+    return;
+  }
+
+  // Don't add duplicates
+  if (user.creatures.find(c => c.id === songId)) {
+    res.json(user.creatures.find(c => c.id === songId));
+    return;
+  }
+
+  try {
+    const trackRes = await axios.get(`https://api.spotify.com/v1/tracks/${songId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const song: SpotifyTrack = {
+      id:          trackRes.data.id,
+      name:        trackRes.data.name,
+      popularity:  trackRes.data.popularity,
+      duration_ms: trackRes.data.duration_ms,
+      explicit:    trackRes.data.explicit,
+    };
+    const creature = createCreatureFromTrack(song);
+    user.creatures.push(creature);
+    saveUsers(users);
+    res.json(creature);
+  } catch (err: any) {
+    console.error("addCreatureBySpotifyId error:", err.response?.data || err.message);
+    res.status(500).json({ error: "Failed to fetch track from Spotify" });
+  }
+};

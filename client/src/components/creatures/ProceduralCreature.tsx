@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-// ── Seeded RNG from creature ID ───────────────────────────────────────────────
+// Seeded RNG from creature ID 
 function makeRng(id: string) {
   let hash = 0;
   for (let i = 0; i < id.length; i++) {
@@ -17,7 +17,7 @@ function pick<T>(arr: T[], rng: () => number): T {
   return arr[Math.floor(rng() * arr.length)];
 }
 
-// ── Colour from gene (0–1) ────────────────────────────────────────────────────
+// Colour from gene (0–1) 
 export function geneToColour(gene: number): number {
   const hue = (200 + gene * 300) % 360;
   const s = 0.65, l = 0.55;
@@ -38,7 +38,7 @@ export function geneToColourHex(gene: number): string {
   return `#${geneToColour(gene).toString(16).padStart(6, "0")}`;
 }
 
-// ── Part helpers ──────────────────────────────────────────────────────────────
+// Part helpers 
 // Normal part — tinted by RAF loop to match creature colour
 function part(
   group: THREE.Group,
@@ -57,7 +57,7 @@ function part(
   return mesh;
 }
 
-// Fixed part — colour never overridden by RAF loop
+// Fixed part 
 function fixedPart(
   group: THREE.Group,
   geo: THREE.BufferGeometry,
@@ -76,7 +76,7 @@ function fixedPart(
   return mesh;
 }
 
-// ── Category types ────────────────────────────────────────────────────────────
+//  Creature types 
 export type CreatureCategory = "mammal" | "slime" | "aquatic";
 
 export interface ProceduralCreatureOpts {
@@ -87,9 +87,7 @@ export interface ProceduralCreatureOpts {
   speed:    number;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// MAMMALS
-// ─────────────────────────────────────────────────────────────────────────────
+//Mammal section
 
 type BodyShape   = "round" | "stocky" | "lean";
 type EarShape    = "pointed" | "round" | "floppy" | "none";
@@ -128,7 +126,7 @@ function buildMammal(opts: ProceduralCreatureOpts): THREE.Group {
   else
     part(g, new THREE.SphereGeometry(0.12, 6, 5), color, 0.82, 0.14, 0, 0,0,0, 1.2,0.8,0.9);
 
-  // Eyes — always fixed white + black
+  // Eyes fixed to creature
   fixedPart(g, new THREE.SphereGeometry(0.055, 6, 5), 0xffffff, 0.72, 0.26,  0.15);
   fixedPart(g, new THREE.SphereGeometry(0.055, 6, 5), 0xffffff, 0.72, 0.26, -0.15);
   fixedPart(g, new THREE.SphereGeometry(0.03,  5, 4), 0x111111, 0.76, 0.26,  0.17);
@@ -190,9 +188,7 @@ function buildMammal(opts: ProceduralCreatureOpts): THREE.Group {
   return g;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SLIMES
-// ─────────────────────────────────────────────────────────────────────────────
+//Slimes section
 
 type SlimeBody      = "blob" | "tall" | "flat";
 type SlimeEyes      = "single" | "double" | "stalks";
@@ -218,7 +214,7 @@ function buildSlime(opts: ProceduralCreatureOpts): THREE.Group {
   part(g, new THREE.SphereGeometry(0.5, 8, 6), color, 0, 0, 0, 0,0,0, bw, bh, 1.0);
   part(g, new THREE.SphereGeometry(0.38, 7, 5), color, 0, -0.3, 0, 0,0,0, bw*0.9, 0.6, 0.9);
 
-  // Eyes — always fixed
+  // Eyes always fixed
   if (eyes === "single") {
     fixedPart(g, new THREE.SphereGeometry(0.14, 6, 5), 0xffffff, 0.32, eyeY, 0.25);
     fixedPart(g, new THREE.SphereGeometry(0.07, 5, 4), 0x111111, 0.38, eyeY, 0.32);
@@ -236,7 +232,7 @@ function buildSlime(opts: ProceduralCreatureOpts): THREE.Group {
     fixedPart(g, new THREE.SphereGeometry(0.045, 5, 4), 0x111111, 0.38, eyeY+0.3,  -0.2);
   }
 
-  // Mouth — always fixed dark
+  // Mouth always fixed dark
   if (mouth === "round") {
     fixedPart(g, new THREE.SphereGeometry(0.08, 6, 5), 0x111111, 0.48, eyeY-0.18, 0, 0,0,0, 1.4,0.6,0.6);
   } else if (mouth === "grin") {
@@ -265,9 +261,7 @@ function buildSlime(opts: ProceduralCreatureOpts): THREE.Group {
   return g;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// AQUATIC
-// ─────────────────────────────────────────────────────────────────────────────
+// Aquatic section
 
 type FishBody  = "round" | "flat" | "long";
 type FishFin   = "tall" | "wide" | "spiky" | "none";
@@ -342,10 +336,7 @@ function buildAquatic(opts: ProceduralCreatureOpts): THREE.Group {
   return g;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Name generation
-// ─────────────────────────────────────────────────────────────────────────────
-
+// Name generator based on category and song name, using same RNG as creature builder for consistent traits in name and design
 export function generateCreatureName(id: string, category: CreatureCategory, songName: string): string {
   const rng = makeRng(id);
   let trait = "";
@@ -384,9 +375,7 @@ export function generateCreatureName(id: string, category: CreatureCategory, son
   return `${trait} ${cleanSong}`;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Main builder
-// ─────────────────────────────────────────────────────────────────────────────
+// Main builder function that dispatches to category-specific builders
 
 export function buildProceduralCreature(opts: ProceduralCreatureOpts): THREE.Group {
   switch (opts.category) {

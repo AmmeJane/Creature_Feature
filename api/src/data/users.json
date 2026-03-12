@@ -56,11 +56,31 @@
           "speed": 0.5636619047619047,
           "colour": 0.37
         }
+      },
+      {
+        "id": "7C3aYlTIVpBnqYu42EdJA7",
+        "songId": "7C3aYlTIVpBnqYu42EdJA7",
+        "name": "HEXXX Beast",
+        "type": "aquatic",
+        "genes": {
+          "size": 0.36,
+          "speed": 0.6431476190476191,
+          "colour": 0.36
+        }
+      },
+      {
+        "id": "2xrhIFEttkRY19agoHOdmk",
+        "songId": "2xrhIFEttkRY19agoHOdmk",
+        "name": "Sand Beast",
+        "type": "slime",
+        "genes": {
+          "size": 0.05,
+          "speed": 0.00029523809523812616,
+          "colour": 0.05
+        }
       }
     ],
     "songPool": [
-      "7C3aYlTIVpBnqYu42EdJA7",
-      "2xrhIFEttkRY19agoHOdmk",
       "4IHv8y8KxnuXPRMsF6twiE",
       "1tFNLD2gwBY2qnh1HskAQ1",
       "1XD4K4CGAKTIBmFpvuaFru",

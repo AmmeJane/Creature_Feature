@@ -1,4 +1,4 @@
-// games/singingDucks/components.tsx
+
 import type { ActiveNote, DuckKey, DuckState } from "./types";
 import { HIT_ZONE, DUCK_IMAGES } from "./types";
 
@@ -37,7 +37,7 @@ export function NoteColumn({ notes }: { notes: ActiveNote[] }) {
           display:"flex", alignItems:"center", justifyContent:"center",
           fontSize:13, color: note.missed ? "#ff4444" : "#1a1a1a",
           boxShadow: note.missed ? "none" : "0 0 8px #1ed760",
-        }}>♪</div>
+        }}>♫</div>
       ))}
       <div style={{ position:"absolute", top:`${HIT_ZONE}%`, left:"50%", transform:"translateX(-50%)", width:38, height:4, borderRadius:2, background:"rgba(255,255,255,0.4)", boxShadow:"0 0 6px rgba(255,255,255,0.6)" }} />
     </div>
@@ -87,7 +87,7 @@ export function DuckLane({ duckKey, duckState, notes, onPress }: {
   );
 }
 
-// ── Scoreboard ────────────────────────────────────────────────────────────────
+// Scoreboard
 export function Scoreboard({ score, combo, songName }: { score: number; combo: number; songName?: string }) {
   return (
     <div style={{ position:"relative", zIndex:10, marginTop:16, background:"#191414", border:"4px solid #535353", borderRadius:8, padding:"10px 20px", boxShadow:"0 0 0 2px  #535353, 4px 4px 0 #000", minWidth:220, textAlign:"center", backdropFilter:"blur(6px)" }}>
@@ -106,7 +106,7 @@ export function Scoreboard({ score, combo, songName }: { score: number; combo: n
   );
 }
 
-// ── OverlayScreen ─────────────────────────────────────────────────────────────
+// OverlayScreen 
 // Change the props:
 export function OverlayScreen({ phase, loadError, songName, score, maxCombo, maxPossibleScore, onStart, onCollect }: {
   phase:            string;

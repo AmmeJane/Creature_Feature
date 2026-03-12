@@ -1,4 +1,4 @@
-// games/singingDucks/hooks.ts
+
 import { useState, useRef, useCallback, useEffect } from "react";
 import type { DuckKey, DuckState, ActiveNote } from "./types";
 import { HIT_ZONE, HIT_TOLERANCE, NOTE_SPEED, DUCK_KEYS } from "./types";
@@ -30,7 +30,7 @@ export function useSingingGame(songId: string, onScore?: (s: number) => void) {
   comboRef.current = combo;
   phaseRef.current = phase;
 
-  // ── Load preview + analyse ────────────────────────────────────────────────
+  // Load preview + analyse
   useEffect(() => {
     let cancelled = false;
     setPhase("loading");
@@ -57,7 +57,7 @@ export function useSingingGame(songId: string, onScore?: (s: number) => void) {
     return () => { cancelled = true; };
   }, [songId]);
 
-  // ── Animation loop ────────────────────────────────────────────────────────
+  // Animation loop 
   const animate = useCallback((time: number) => {
     if (phaseRef.current !== "playing") return;
     const dt = lastTimeRef.current ? (time - lastTimeRef.current) / 1000 : 0;
@@ -83,7 +83,7 @@ export function useSingingGame(songId: string, onScore?: (s: number) => void) {
     rafRef.current = requestAnimationFrame(animate);
   }, []);
 
-  // ── Start game ────────────────────────────────────────────────────────────
+  // Start game
   const startGame = useCallback(() => {
     const chart = chartRef.current;
     if (!chart) return;
@@ -155,7 +155,7 @@ export function useSingingGame(songId: string, onScore?: (s: number) => void) {
         timeoutsRef.current.push(endTimer);
   }, [animate, onScore]);
 
-  // ── Handle key press ──────────────────────────────────────────────────────
+  // Handle key press 
   const handleKey = useCallback((key: DuckKey) => {
     if (phaseRef.current !== "playing") return;
 
@@ -183,7 +183,7 @@ export function useSingingGame(songId: string, onScore?: (s: number) => void) {
     });
   }, []);
 
-  // ── Keyboard ──────────────────────────────────────────────────────────────
+  // Keyboard 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const k = e.key.toUpperCase() as DuckKey;
@@ -194,7 +194,7 @@ export function useSingingGame(songId: string, onScore?: (s: number) => void) {
     return () => window.removeEventListener("keydown", onKey);
   }, [handleKey, startGame]);
 
-  // ── Cleanup ───────────────────────────────────────────────────────────────
+  // Cleanup 
   useEffect(() => () => {
     cancelAnimationFrame(rafRef.current);
     timeoutsRef.current.forEach(clearTimeout);

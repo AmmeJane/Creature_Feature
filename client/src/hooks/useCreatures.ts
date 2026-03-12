@@ -17,7 +17,7 @@ export function useCreatures() {
   const [spawning,  setSpawning]  = useState(false);
   const [newCreature, setNewCreature] = useState<CreatureSnapshot | null>(null);
 
-  // ── Load from API ────────────────────────────────────────────────────────
+  // Load from API
   useEffect(() => {
     fetchCreatures()
       .then((snaps) => {
@@ -48,7 +48,7 @@ export function useCreatures() {
       });
   }, []);
 
-  // ── Simulation tick ──────────────────────────────────────────────────────
+  // Simulation tick 
   useEffect(() => {
     if (!running || loading) return;
     const id = setInterval(() => {
@@ -61,10 +61,10 @@ export function useCreatures() {
     return () => clearInterval(id);
   }, [running, loading]);
 
-  // ── Pending creature (fetched but not yet added to herd) ────────────────
+  // Pending creature (fetched but not yet added to herd) 
   const pendingCreatureRef = useRef<Creature | null>(null);
 
-  // ── Spawn — fetches creature and shows crate, does NOT add to herd yet ──
+  // Spawn — fetches creature and shows crate, does NOT add to herd yet 
   const spawnCreature = useCallback(async () => {
     if (spawning) return;
     setSpawning(true);
@@ -83,7 +83,7 @@ export function useCreatures() {
     }
   }, [spawning]);
 
-  // ── Confirm — called after crate animation, actually adds to herd ────────
+  // Confirm — called after crate animation, actually adds to herd 
   const confirmNewCreature = useCallback(() => {
     const c = pendingCreatureRef.current;
     if (!c) return;
@@ -95,7 +95,7 @@ export function useCreatures() {
     setNewCreature(null);
   }, []);
 
-  // ── Remove ───────────────────────────────────────────────────────────────
+  // Remove creature from herd 
   const removeCreature = useCallback((id: string) => {
     instancesRef.current = instancesRef.current.filter((c) => c.id !== id);
     const next = instancesRef.current.map((c) => c.toSnapshot());
@@ -103,7 +103,7 @@ export function useCreatures() {
     setSnapshots(next);
   }, []);
 
-  // ── Force state change ───────────────────────────────────────────────────
+  // Force state change
   const changeCreatureState = useCallback((id: string, state: any) => {
     instancesRef.current.find((c) => c.id === id)?.changeState(state);
     const next = instancesRef.current.map((c) => c.toSnapshot());

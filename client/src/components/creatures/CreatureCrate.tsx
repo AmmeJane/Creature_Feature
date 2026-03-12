@@ -42,7 +42,7 @@ export function CreatureCrate({ creature, creatureType, onConfirm }: CreatureCra
     camera.position.set(0, 1.2, 6);
     camera.lookAt(0, 0, 0);
 
-    /* ---------------- LIGHTS ---------------- */
+    //Lights
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 
@@ -54,7 +54,7 @@ export function CreatureCrate({ creature, creatureType, onConfirm }: CreatureCra
     fill.position.set(-4, 2, 4);
     scene.add(fill);
 
-    /* ---------------- WOOD TEXTURE ---------------- */
+    // Wood texture
 
     const woodCanvas = document.createElement("canvas");
     woodCanvas.width = 256;
@@ -113,7 +113,7 @@ export function CreatureCrate({ creature, creatureType, onConfirm }: CreatureCra
       metalness: 0.05
     });
 
-    /* ---------------- CRATE ---------------- */
+    //Crate
 
     const crateGroup = new THREE.Group();
     crateGroup.position.y = -0.3;
@@ -170,7 +170,7 @@ export function CreatureCrate({ creature, creatureType, onConfirm }: CreatureCra
     crateGroup.add(bottom);
     pieces.push({ mesh: bottom, vx:0,vy:0,vz:0,vrx:0,vry:0,vrz:0 });
 
-    /* ---------------- CREATURE ---------------- */
+    //Creature
 
     const hex = parseInt(colour.replace("#", ""), 16);
 
@@ -187,7 +187,7 @@ export function CreatureCrate({ creature, creatureType, onConfirm }: CreatureCra
 
     scene.add(creatureGroup);
 
-    /* ---------------- EXPLOSION FX ---------------- */
+    // Explosion effects
 
     const flash = new THREE.Mesh(
       new THREE.SphereGeometry(2, 12, 12),
@@ -233,7 +233,7 @@ export function CreatureCrate({ creature, creatureType, onConfirm }: CreatureCra
       });
     }
 
-    /* ---------------- ANIMATION ---------------- */
+    //Explosion loop
 
     let t = 0;
     let explodeT = 0;

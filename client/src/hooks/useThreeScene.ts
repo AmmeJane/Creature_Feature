@@ -3,7 +3,7 @@ import * as THREE from "three";
 import type { CreatureSnapshot } from "../types/CreatureTypes";
 import { buildProceduralCreature, categoryFromType, geneToColour } from "../components/creatures/ProceduralCreature";
 
-// ── Build mesh ────────────────────────────────────────────────────────────────
+//  Build mesh 
 function buildCreatureMesh(id: string, type: string, hex: number, sizeGene: number, speedGene: number): THREE.Group {
   return buildProceduralCreature({
     id,
@@ -14,7 +14,7 @@ function buildCreatureMesh(id: string, type: string, hex: number, sizeGene: numb
   });
 }
 
-// ── Scene setup ───────────────────────────────────────────────────────────────
+//  Scene setup 
 function initScene(
   canvas: HTMLCanvasElement,
   snapshotsRef: React.MutableRefObject<CreatureSnapshot[]>,
@@ -34,7 +34,7 @@ function initScene(
   // meshMap lives here — RAF closes over it directly, no ref indirection
   const meshMap: Record<string, { group: THREE.Group }> = {};
 
-  // ── Sky gradient ──────────────────────────────────────────────────────────
+  //  Sky gradient 
   const skyMat = new THREE.ShaderMaterial({
     side: THREE.BackSide,
     uniforms: {
@@ -58,7 +58,7 @@ function initScene(
   });
   scene.add(new THREE.Mesh(new THREE.SphereGeometry(48, 16, 16), skyMat));
 
-  // ── Sun ───────────────────────────────────────────────────────────────────
+  //  Sun 
   const sunMesh = new THREE.Mesh(
     new THREE.SphereGeometry(1.2, 16, 16),
     new THREE.MeshBasicMaterial({ color: 0xfff176 }),
@@ -70,7 +70,7 @@ function initScene(
     new THREE.MeshBasicMaterial({ color: 0xffffaa, transparent: true, opacity: 0.22 }),
   ));
 
-  // ── Clouds ────────────────────────────────────────────────────────────────
+  //  Clouds 
   const cloudMat = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.93 });
   function makeCloud(x: number, y: number, z: number, s: number) {
     const g = new THREE.Group();
@@ -90,7 +90,7 @@ function initScene(
     ([x,y,z,s]) => scene.add(makeCloud(x,y,z,s))
   );
 
-  // ── Ground ────────────────────────────────────────────────────────────────
+  //  Ground 
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshLambertMaterial({ color: 0x4a9e3f }));
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = -1.2;
@@ -112,7 +112,7 @@ function initScene(
     scene.add(tuft);
   }
 
-  // ── Fence ─────────────────────────────────────────────────────────────────
+  //  Fence 
   const postMat = new THREE.MeshLambertMaterial({ color: 0xc8a96e });
   const railMat = new THREE.MeshLambertMaterial({ color: 0xb8955a });
   for (let i = -12; i <= 12; i += 2.5) {
@@ -132,7 +132,7 @@ function initScene(
     });
   });
 
-  // ── Trees ─────────────────────────────────────────────────────────────────
+  //  Trees 
   const trunkMat  = new THREE.MeshLambertMaterial({ color: 0x8b5e3c });
   const leavesMat = new THREE.MeshLambertMaterial({ color: 0x2d7a27 });
   ([[-16,-16],[-16,0],[-16,16],[16,-16],[16,0],[16,16],[-8,-16],[8,-16],[-8,16],[8,16],[-12,0],[12,0]] as [number,number][]).forEach(([tx,tz]) => {
@@ -146,7 +146,7 @@ function initScene(
     });
   });
 
-  // ── Flowers ───────────────────────────────────────────────────────────────
+  //  Flowers 
   const flowerColors = [0xff6699, 0xffee55, 0xff8833, 0xcc55ff, 0xffffff];
   for (let i = 0; i < 60; i++) {
     const fc = flowerColors[Math.floor(Math.random() * flowerColors.length)];
@@ -160,7 +160,7 @@ function initScene(
     scene.add(bloom);
   }
 
-  // ── Lighting ──────────────────────────────────────────────────────────────
+  //  Lighting 
   scene.add(new THREE.AmbientLight(0xfff4e0, 0.75));
   const sunLight = new THREE.DirectionalLight(0xfff8dc, 1.4);
   sunLight.position.set(14, 20, 10);
@@ -169,7 +169,7 @@ function initScene(
   fillLight.position.set(-8, 5, 8);
   scene.add(fillLight);
 
-  // ── RAF loop — closes over meshMap directly ───────────────────────────────
+  //  RAF loop — closes over meshMap directly 
   let t = 0;
   let rafId = 0;
 
@@ -213,7 +213,7 @@ function initScene(
   };
   loop();
 
-  // ── Resize ────────────────────────────────────────────────────────────────
+  //  Resize 
   const resize = () => {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     renderer.setSize(w, h, false);
@@ -223,7 +223,7 @@ function initScene(
   resize();
   window.addEventListener("resize", resize);
 
-  // ── Raycasting ───────────────────────────────────────────────────────────
+  //  Raycasting 
   const raycaster = new THREE.Raycaster();
 
   function getClickedCreatureId(event: MouseEvent, meshMap: Record<string, { group: THREE.Group }>): string | null {
@@ -262,7 +262,7 @@ function initScene(
   };
 }
 
-// ── Hook ──────────────────────────────────────────────────────────────────────
+//  Hook 
 interface UseThreeSceneArgs {
   canvasRef:         React.RefObject<HTMLCanvasElement>;
   snapshotsRef:      React.MutableRefObject<CreatureSnapshot[]>;
@@ -277,7 +277,7 @@ export function useThreeScene({ canvasRef, snapshotsRef, selectedRef, snapshots,
   const sceneRef   = useRef<{ scene: THREE.Scene; meshMap: Record<string, { group: THREE.Group }>; camera: THREE.PerspectiveCamera; getClickedCreatureId: (e: MouseEvent, m: Record<string, { group: THREE.Group }>) => string | null; dispose: () => void } | null>(null);
   const [sceneReady, setSceneReady] = useState(false);
 
-  // ── Init scene once loading is done ───────────────────────────────────────
+  //  Init scene once loading is done 
   useEffect(() => {
     if (loading) return;
     const canvas = canvasRef.current;
@@ -299,7 +299,7 @@ export function useThreeScene({ canvasRef, snapshotsRef, selectedRef, snapshots,
       built.meshMap[c.id] = { group };
     });
 
-    // ── Canvas click → raycast ──────────────────────────────────────────
+    //  Canvas click → raycast 
     const handleClick = (e: MouseEvent) => {
       if (!onCreatureClick) return;
       const id = built.getClickedCreatureId(e, built.meshMap);
@@ -315,7 +315,7 @@ export function useThreeScene({ canvasRef, snapshotsRef, selectedRef, snapshots,
     };
   }, [loading]);
 
-  // ── Add / remove meshes when snapshots change ─────────────────────────────
+  //  Add / remove meshes when snapshots change 
   useEffect(() => {
     if (!sceneReady || !sceneRef.current) return;
     const { scene, meshMap } = sceneRef.current;

@@ -1,4 +1,4 @@
-// games/singingDucks/types.ts
+
 export type DuckKey   = "A" | "S" | "D";
 export type DuckState = "idle" | "singing" | "miss";
 
